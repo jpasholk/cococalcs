@@ -35,14 +35,31 @@ function handleSubmit(e) {
   const customInputs = ['cocoPct', 'perlitePct', 'vermiculitePct', 'castingsPct']
     .map(id => document.getElementById(id));
 
-  // Get dimensions
+  // Get dimensions and validate
   const length = parseFloat(form.length.value);
   const width = parseFloat(form.width.value);
-  const height = parseFloat(form.height.value);
-  
+  const heightInches = parseFloat(form.height.value);
+
+  // Validate inputs
+  if (isNaN(length) || isNaN(width) || isNaN(heightInches)) {
+    alert('Please fill in all dimensions');
+    return;
+  }
+
+  // Convert height from inches to feet
+  const heightFeet = heightInches / 12;
+
   // Calculate total volume in cubic feet
-  const totalVolume = length * width * height;
-  
+  const totalVolume = length * width * heightFeet;
+
+  console.log('Dimensions:', {
+    length: `${length} ft`,
+    width: `${width} ft`,
+    heightInches: `${heightInches} inches`,
+    heightFeet: `${heightFeet} ft`,
+    totalVolume: `${totalVolume.toFixed(2)} cu ft`
+  });
+
   // Get mix ratios based on selection
   let mix;
   if (mixTypeSelect.value === 'custom') {
@@ -73,11 +90,13 @@ function handleSubmit(e) {
   
   // Display results
   results.innerHTML = `
-    <h2 class="font-bold mb-2">Results</h2>
-    <p>Total Volume Needed: ${totalVolume.toFixed(2)} cubic feet</p>
+    <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Results</h2>
+    <h3 class="sm:text-xl dark:text-gray-200">Total Volume Needed: ${totalVolume.toFixed(2)} cubic feet</h3>
+    <hr class="my-4 border-t border-gray-400">
+    <h3 class="sm:text-xl dark:text-gray-200">Ingredients:</h3>
     <ul class="mt-2">
       ${volumes.map(({material, volume}) => 
-        `<li class="capitalize">${material}: ${volume} cubic feet</li>`
+        `<li class="dark:text-gray-200 capitalize">${material}: ${volume} cubic feet</li>`
       ).join('')}
     </ul>
   `;
