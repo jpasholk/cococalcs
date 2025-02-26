@@ -1,0 +1,41 @@
+---
+import BlueskyLogo from './icons/BlueskyLogo.astro';
+import GithubLogo from './icons/GitHubLogo.astro';
+---
+
+<footer class="mt-8 py-6 border-t dark:border-gray-700">
+  <div class="max-w-2xl mx-auto px-6">
+    <div class="flex flex-row justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Made with <span class="text-red-500">♥</span> by <a 
+            href="https://jpsholk.com" 
+            class="underline hover:text-gray-900 dark:hover:text-gray-200"
+            target="_blank" 
+            rel="noopener me"
+          >jpasholk</a>
+        </p>
+        <a 
+          href="https://bsky.app/profile/jpshlk.com" 
+          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+          target="_blank"
+          rel="noopener me"
+          aria-label="Bluesky Profile"
+        >
+          <BlueskyLogo />
+        </a>
+      </div>
+      <div class="flex ml-4">
+        <a 
+          href="https://github.com/jpasholk/cococalcs" 
+          class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub Repository"
+        >
+          <GithubLogo />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

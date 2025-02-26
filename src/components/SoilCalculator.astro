@@ -1,5 +1,6 @@
 ---
 import Header from './Header.astro';
+import Footer from './Footer.astro';
 
 // Define default soil mix ratios
 const defaultMixes = {
@@ -81,7 +82,7 @@ const defaultMixes = {
           </div>
         </div>
         <div>
-          <label for="height" class="block mb-2 dark:text-gray-200">Height (inches)</label>
+          <label for="height" class="block mb-2 dark:text-gray-200">Height (in)</label>
           <div class="relative">
             <input 
               type="number" 
@@ -197,6 +198,8 @@ const defaultMixes = {
       <!-- Results content will be inserted by JavaScript -->
     </div>
   </form>
+
+  <Footer />
 </div>
 
 <script>
