@@ -1,0 +1,78 @@
+---
+import Header from './Header.astro';
+
+// Define default soil mix ratios
+const defaultMixes = {
+  basic: { coco: 70, perlite: 30 },
+  advanced: { coco: 60, perlite: 20, vermiculite: 10, castings: 10 }
+};
+---
+
+<div class="max-w-2xl mx-auto p-6">
+  <Header title="Garden Bed Soil Calculator" />
+  
+  <form id="calculatorForm" class="space-y-6">
+    <!-- Dimensions -->
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label for="length">Length (ft)</label>
+        <input type="number" id="length" class="w-full border rounded p-2" />
+      </div>
+      <div>
+        <label for="width">Width (ft)</label>
+        <input type="number" id="width" class="w-full border rounded p-2" />
+      </div>
+      <div>
+        <label for="height">Height (ft)</label>
+        <input type="number" id="height" class="w-full border rounded p-2" />
+      </div>
+    </div>
+
+    <!-- Mix Selection -->
+    <div>
+      <label>Select Mix Type</label>
+      <select id="mixType" class="w-full border rounded p-2">
+        <option value="basic">Basic Mix (70/30)</option>
+        <option value="advanced">Advanced Mix (60/20/10/10)</option>
+        <option value="custom">Custom Mix</option>
+      </select>
+    </div>
+
+    <!-- Custom Mix Inputs -->
+    <div id="customMixInputs" class="space-y-4 hidden">
+      <div>
+        <label for="cocoPct">Coco Coir %</label>
+        <input type="number" id="cocoPct" class="w-full border rounded p-2" value="0" />
+      </div>
+      <div>
+        <label for="perlitePct">Perlite %</label>
+        <input type="number" id="perlitePct" class="w-full border rounded p-2" value="0" />
+      </div>
+      <div>
+        <label for="vermiculitePct">Vermiculite %</label>
+        <input type="number" id="vermiculitePct" class="w-full border rounded p-2" value="0" />
+      </div>
+      <div>
+        <label for="castingsPct">Worm Castings %</label>
+        <input type="number" id="castingsPct" class="w-full border rounded p-2" value="0" />
+      </div>
+      <div id="totalPct" class="font-bold">Total: 0%</div>
+    </div>
+
+    <!-- Calculate Button -->
+    <button 
+      type="submit" 
+      class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+    >
+      Calculate
+    </button>
+
+    <!-- Results will be displayed here -->
+    <div id="results" class="mt-6 p-4 bg-gray-100 rounded hidden"></div>
+  </form>
+</div>
+
+<script>
+  import { initializeCalculator } from '../utils/calculator.js';
+  document.addEventListener('DOMContentLoaded', initializeCalculator);
+</script>
