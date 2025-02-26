@@ -91,14 +91,24 @@ function handleSubmit(e) {
   // Display results
   results.innerHTML = `
     <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Results</h2>
-    <h3 class="sm:text-xl dark:text-gray-200">Total Volume Needed: ${totalVolume.toFixed(2)} cubic feet</h3>
+    <div class="space-y-2">
+      <h3 class="sm:text-xl dark:text-gray-200">Total Volume Needed:</h3>
+      <ul class="list-disc pl-5 dark:text-gray-200">
+        <li>${totalVolume.toFixed(2)} cubic feet</li>
+        <li>${(totalVolume / 27).toFixed(2)} cubic yards</li>
+      </ul>
+    </div>
     <hr class="my-4 border-t border-gray-400">
-    <h3 class="sm:text-xl dark:text-gray-200">Ingredients:</h3>
-    <ul class="mt-2">
-      ${volumes.map(({material, volume}) => 
-        `<li class="dark:text-gray-200 capitalize">${material}: ${volume} cubic feet</li>`
-      ).join('')}
-    </ul>
+    <div class="space-y-2">
+      <h3 class="sm:text-xl dark:text-gray-200">Ingredients:</h3>
+      <ul class="list-disc pl-5">
+        ${volumes.map(({material, volume}) => `
+          <li class="dark:text-gray-200 capitalize">
+            ${material}: ${volume} cu ft (${(Number(volume) / 27).toFixed(2)} cu yd)
+          </li>
+        `).join('')}
+      </ul>
+    </div>
   `;
   results.classList.remove('hidden');
 }

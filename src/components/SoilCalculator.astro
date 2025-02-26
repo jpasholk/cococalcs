@@ -18,29 +18,99 @@ const defaultMixes = {
       <div class="grid grid-cols-3 gap-4">
         <div>
           <label for="length" class="block mb-2 dark:text-gray-200">Length (ft)</label>
-          <input 
-            type="number" 
-            id="length" 
-            class="w-full border rounded p-2 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600" 
-          />
+          <div class="relative">
+            <input 
+              type="number" 
+              id="length" 
+              class="w-full border rounded p-2 pr-8 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              min="0"
+              step="0.5"
+            />
+            <div class="absolute inset-y-0 right-0 flex flex-col border-l dark:border-gray-600">
+              <button 
+                type="button"
+                class="flex-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center justify-center"
+                onclick="this.parentElement.previousElementSibling.stepUp()"
+              >
+                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/>
+                </svg>
+              </button>
+              <button 
+                type="button"
+                class="flex-1 px-2 border-t hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600 flex items-center justify-center"
+                onclick="this.parentElement.previousElementSibling.stepDown()"
+              >
+                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
         <div>
           <label for="width" class="block mb-2 dark:text-gray-200">Width (ft)</label>
-          <input 
-            type="number" 
-            id="width" 
-            class="w-full border rounded p-2 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600" 
-          />
+          <div class="relative">
+            <input 
+              type="number" 
+              id="width" 
+              class="w-full border rounded p-2 pr-8 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              min="0"
+              step="0.5"
+            />
+            <div class="absolute inset-y-0 right-0 flex flex-col border-l dark:border-gray-600">
+              <button 
+                type="button"
+                class="flex-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center justify-center"
+                onclick="this.parentElement.previousElementSibling.stepUp()"
+              >
+                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/>
+                </svg>
+              </button>
+              <button 
+                type="button"
+                class="flex-1 px-2 border-t hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600 flex items-center justify-center"
+                onclick="this.parentElement.previousElementSibling.stepDown()"
+              >
+                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
         <div>
           <label for="height" class="block mb-2 dark:text-gray-200">Height (inches)</label>
-          <input 
-            type="number" 
-            id="height" 
-            class="w-full border rounded p-2 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600" 
-            min="0"
-            step="0.5"
-          />
+          <div class="relative">
+            <input 
+              type="number" 
+              id="height" 
+              class="w-full border rounded p-2 pr-8 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              min="0"
+              step="0.5"
+            />
+            <div class="absolute inset-y-0 right-0 flex flex-col border-l dark:border-gray-600">
+              <button 
+                type="button"
+                class="flex-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center justify-center"
+                onclick="this.parentElement.previousElementSibling.stepUp()"
+              >
+                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/>
+                </svg>
+              </button>
+              <button 
+                type="button"
+                class="flex-1 px-2 border-t hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600 flex items-center justify-center"
+                onclick="this.parentElement.previousElementSibling.stepDown()"
+              >
+                <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
