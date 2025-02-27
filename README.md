@@ -1,4 +1,4 @@
-## 🧞 Commands
+## 🧞 Commands to build the tool locally
 
 All commands are run from the root of the project, from a terminal:
 
@@ -13,4 +13,4 @@ All commands are run from the root of the project, from a terminal:
 
 ## 👀 Want to learn more?
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Feel free to check [Astro's documentation](https://docs.astro.build) or jump into our [thier server](https://astro.build/chat).
