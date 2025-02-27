@@ -81,12 +81,18 @@ function handleSubmit(e) {
   }
   
   // Calculate individual volumes
+  const CUBIC_FEET_TO_QUARTS = 25.714;
+  
   const volumes = Object.entries(mix)
     .filter(([, ratio]) => ratio > 0)
-    .map(([material, ratio]) => ({
-      material,
-      volume: (totalVolume * ratio).toFixed(2)
-    }));
+    .map(([material, ratio]) => {
+      const cubicFeet = totalVolume * ratio;
+      return {
+        material,
+        cubicFeet: cubicFeet.toFixed(2),
+        quarts: (cubicFeet * CUBIC_FEET_TO_QUARTS).toFixed(1)
+      };
+    });
   
   // Display results
   results.innerHTML = `
@@ -102,11 +108,21 @@ function handleSubmit(e) {
     <div class="space-y-2">
       <h3 class="sm:text-xl dark:text-gray-200">Ingredients:</h3>
       <ul class="list-disc pl-5">
-        ${volumes.map(({material, volume}) => `
-          <li class="dark:text-gray-200 capitalize">
-            ${material}: ${volume} cu ft (${(Number(volume) / 27).toFixed(2)} cu yd)
-          </li>
-        `).join('')}
+        ${volumes.map(({material, cubicFeet, quarts}) => {
+          if (material === 'coco') {
+            return `
+              <li class="dark:text-gray-200 capitalize">
+                ${material}: ${cubicFeet} cu ft (${(Number(cubicFeet) / 27).toFixed(2)} cu yd)
+              </li>
+            `;
+          } else {
+            return `
+              <li class="dark:text-gray-200 capitalize">
+                ${material}: ${cubicFeet} cu ft (${quarts} quarts)
+              </li>
+            `;
+          }
+        }).join('')}
       </ul>
     </div>
   `;
