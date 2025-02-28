@@ -2,7 +2,6 @@
 import TabNav from './TabNav.astro';
 import DimensionsCard from './DimensionsCard.astro';
 import MixSelection from './MixSelection.astro';
-import CustomMix from './CustomMix.astro';
 import Results from './Results.astro';
 
 // Define default soil mix ratios (moved from SoilCalculator.astro)
@@ -20,7 +19,6 @@ const defaultMixes = {
       <form id="calculatorForm" class="space-y-6">
         <DimensionsCard title="Garden Bed Dimensions"/>
         <MixSelection />
-        <CustomMix />
         <Results />
       </form>
     </div>
@@ -35,7 +33,6 @@ const defaultMixes = {
         </div>
         <DimensionsCard title="Pot Dimensions"/>
         <MixSelection />
-        <CustomMix />
         <Results />
       </form>
     </div>
@@ -50,7 +47,6 @@ const defaultMixes = {
         </div>
         <DimensionsCard title="Seed Tray Dimensions"/>
         <MixSelection />
-        <CustomMix />
         <Results />
       </form>
     </div>
