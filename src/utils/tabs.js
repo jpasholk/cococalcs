@@ -1,6 +1,7 @@
 export function initializeTabs() {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+  let transitionTimeout;
 
   // Add transition classes to all panels and results
   tabPanels.forEach(panel => {
@@ -14,7 +15,6 @@ export function initializeTabs() {
     const initialPanel = document.getElementById(panelId);
     if (initialPanel) {
       initialPanel.classList.remove('hidden');
-      // Small delay to trigger fade in
       setTimeout(() => {
         initialPanel.classList.remove('opacity-0');
       }, 10);
@@ -23,6 +23,9 @@ export function initializeTabs() {
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
+      // Clear any pending transitions
+      clearTimeout(transitionTimeout);
+
       // Deactivate all tabs
       tabs.forEach(t => {
         t.setAttribute('aria-selected', 'false');
@@ -35,29 +38,26 @@ export function initializeTabs() {
       tab.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
       tab.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
 
-      // Get current and new panels
+      // Handle panel transitions
       const newPanelId = tab.getAttribute('data-tab').substring(1);
       const newPanel = document.getElementById(newPanelId);
-      const currentPanel = document.querySelector('[role="tabpanel"]:not(.hidden)');
 
-      // Fade out current panel
-      if (currentPanel) {
-        currentPanel.classList.add('opacity-0');
-        setTimeout(() => {
-          currentPanel.classList.add('hidden');
-          // Show new panel
-          newPanel.classList.add('opacity-0');
-          newPanel.classList.remove('hidden');
-          // Trigger fade in
-          setTimeout(() => {
-            newPanel.classList.remove('opacity-0');
-          }, 10);
-        }, 300);
-      }
+      // Hide all panels immediately except new one
+      tabPanels.forEach(panel => {
+        if (panel.id !== newPanelId) {
+          panel.classList.add('hidden', 'opacity-0');
+        }
+      });
+
+      // Show new panel
+      newPanel.classList.remove('hidden');
+      transitionTimeout = setTimeout(() => {
+        newPanel.classList.remove('opacity-0');
+      }, 10);
     });
   });
 
-  // Initialize results animation with same transition pattern
+  // Keep results animation
   const results = document.getElementById('results');
   if (results) {
     results.classList.add('transition-opacity', 'duration-300', 'ease-in', 'opacity-0');

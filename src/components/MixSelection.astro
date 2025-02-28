@@ -1,8 +1,9 @@
 ---
-const mixOptions = [
-  { value: 'basic', label: 'Basic Mix (70 Coco/30 Perlite)' },
-  { value: 'advanced', label: 'Advanced Mix (60/20/10/10)' },
-  { value: 'custom', label: 'Custom Mix' }
+const ingredients = [
+  { id: 'coco', name: 'Coco Coir', defaultChecked: false },
+  { id: 'perlite', name: 'Perlite', defaultChecked: false },
+  { id: 'vermiculite', name: 'Vermiculite', defaultChecked: false },
+  { id: 'castings', name: 'Worm Castings', defaultChecked: false }
 ];
 ---
 
@@ -10,26 +11,51 @@ const mixOptions = [
   <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Soil Mix</h2>
   
   <div class="space-y-4">
-    <!-- Mix Type Selection -->
-    <div>
-      <label for="mixType" class="block mb-2 dark:text-gray-200">Select Mix Type</label>
-      <select 
-        id="mixType" 
-        name="mixType"
-        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+    <div class="relative">
+      <button 
+        id="mixDropdownButton" 
+        type="button"
+        class="w-full text-left bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 py-2.5 inline-flex items-center justify-between border border-gray-300 dark:border-gray-600"
       >
-        {mixOptions.map(option => (
-          <option value={option.value}>{option.label}</option>
-        ))}
-      </select>
+        <span class="dark:text-gray-200">Select Ingredients</span>
+        <svg class="w-2.5 h-2.5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+      </button>
+
+      <div id="mixDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-full mt-2 dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="mixDropdownButton">
+          {ingredients.map(ingredient => (
+            <li>
+              <div class="flex p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600">
+                <label class="inline-flex items-center w-full cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id={ingredient.id}
+                    name="ingredients[]"
+                    value={ingredient.id}
+                    checked={ingredient.defaultChecked}
+                    class="sr-only peer"
+                  />
+                  <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
+                  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {ingredient.name}
+                  </span>
+                </label>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
 
-    <!-- Calculate Button -->
     <button 
-      type="submit"
+      type="button"
+      id="calculateButton"
       class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
     >
       Calculate
     </button>
   </div>
 </div>
+

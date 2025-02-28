@@ -20,7 +20,7 @@ const { title } = Astro.props;
         min="0"
         step="0.1"
         required
-        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
     </div>
 
@@ -35,13 +35,13 @@ const { title } = Astro.props;
         min="0"
         step="0.1"
         required
-        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
     </div>
 
     <!-- Height input -->
     <div class="dimension-input">
-      <label for="height" class="block mb-2 dark:text-gray-200">Height (ft)</label>
+      <label for="height" class="block mb-2 dark:text-gray-200">Height (in)</label>
       <input
         type="number"
         inputmode="decimal"
@@ -50,7 +50,7 @@ const { title } = Astro.props;
         min="0"
         step="0.1"
         required
-        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
     </div>
   </div>

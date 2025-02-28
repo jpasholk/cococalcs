@@ -1,86 +1,95 @@
 export function initializeCalculator() {
-  const form = document.getElementById('calculatorForm');
-  const results = document.getElementById('results');
-  const mixTypeSelect = document.getElementById('mixType');
-  const customMixInputs = document.getElementById('customMixInputs');
-  const totalPctDisplay = document.getElementById('totalPct');
+  const calculateButton = document.getElementById('calculateButton');
   
-  // Custom mix input elements
-  const customInputs = ['cocoPct', 'perlitePct', 'vermiculitePct', 'castingsPct']
-    .map(id => document.getElementById(id));
+  // Initialize dropdown
+  initializeMixDropdown();
 
-  // Show/hide custom mix inputs based on selection
-  mixTypeSelect.addEventListener('change', () => {
-    customMixInputs.classList.toggle('hidden', mixTypeSelect.value !== 'custom');
-  });
-
-  // Update total percentage
-  customInputs.forEach(input => {
-    input.addEventListener('input', () => {
-      const total = customInputs.reduce((sum, input) => sum + (Number(input.value) || 0), 0);
-      totalPctDisplay.textContent = `Total: ${total}%`;
-      totalPctDisplay.classList.toggle('text-red-500', total !== 100);
+  // Handle calculate button click
+  if (calculateButton) {
+    calculateButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleCalculate();
     });
-  });
-
-  form.addEventListener('submit', handleSubmit);
+  }
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
+function getMixRatios(selectedIngredients) {
+  const ingredients = selectedIngredients.map(i => i.value).sort((a, b) => {
+    // Custom sort order
+    const order = { coco: 1, perlite: 2, vermiculite: 3, castings: 4 };
+    return order[a] - order[b];
+  });
   
-  const form = e.target;
+  // If only one ingredient is selected, use 100% of that ingredient
+  if (ingredients.length === 1) {
+    return { [ingredients[0]]: 1.0 };
+  }
+  
+  const ratios = {
+    // Two ingredients (must include coco and perlite)
+    'coco,perlite': { coco: 0.7, perlite: 0.3 },
+    // Three ingredients (must include coco, perlite, and vermiculite)
+    'coco,perlite,vermiculite': { coco: 0.7, perlite: 0.2, vermiculite: 0.1 },
+    // Four ingredients (all ingredients)
+    'coco,perlite,vermiculite,castings': { 
+      coco: 0.57, 
+      perlite: 0.14, 
+      vermiculite: 0.14, 
+      castings: 0.14 
+    }
+  };
+
+  const key = ingredients.join(',');
+  const mix = ratios[key];
+  
+  // If we have a valid combination, return it
+  if (mix) {
+    return mix;
+  }
+  
+  // For any other combination, distribute evenly
+  const equalShare = 1 / ingredients.length;
+  return ingredients.reduce((acc, ingredient) => {
+    acc[ingredient] = equalShare;
+    return acc;
+  }, {});
+}
+
+function handleCalculate() {
+  // Get length and width in feet, height in inches
+  const lengthFeet = parseFloat(document.getElementById('length').value);
+  const widthFeet = parseFloat(document.getElementById('width').value);
+  const heightInches = parseFloat(document.getElementById('height').value);
   const results = document.getElementById('results');
-  const mixTypeSelect = document.getElementById('mixType');
-  const customInputs = ['cocoPct', 'perlitePct', 'vermiculitePct', 'castingsPct']
-    .map(id => document.getElementById(id));
 
-  // Get dimensions and validate
-  const length = parseFloat(form.length.value);
-  const width = parseFloat(form.width.value);
-  const heightInches = parseFloat(form.height.value);
-
-  // Validate inputs
-  if (isNaN(length) || isNaN(width) || isNaN(heightInches)) {
-    alert('Please fill in all dimensions');
+  if (isNaN(lengthFeet) || isNaN(widthFeet) || isNaN(heightInches)) {
+    alert('Please enter all dimensions');
     return;
   }
 
-  // Convert height from inches to feet
-  const heightFeet = heightInches / 12;
+  // Calculate total volume in cubic feet (length * width * height/12)
+  const totalVolume = lengthFeet * widthFeet * (heightInches / 12);
 
-  // Calculate total volume in cubic feet
-  const totalVolume = length * width * heightFeet;
-
-  console.log('Dimensions:', {
-    length: `${length} ft`,
-    width: `${width} ft`,
-    heightInches: `${heightInches} inches`,
-    heightFeet: `${heightFeet} ft`,
-    totalVolume: `${totalVolume.toFixed(2)} cu ft`
-  });
-
-  // Get mix ratios based on selection
-  let mix;
-  if (mixTypeSelect.value === 'custom') {
-    const total = customInputs.reduce((sum, input) => sum + (Number(input.value) || 0), 0);
-    if (total !== 100) {
-      alert('Custom mix percentages must total 100%');
-      return;
-    }
-    mix = {
-      coco: Number(document.getElementById('cocoPct').value) / 100,
-      perlite: Number(document.getElementById('perlitePct').value) / 100,
-      vermiculite: Number(document.getElementById('vermiculitePct').value) / 100,
-      castings: Number(document.getElementById('castingsPct').value) / 100
-    };
-  } else {
-    mix = mixTypeSelect.value === 'basic' ? 
-      { coco: 0.7, perlite: 0.3 } : 
-      { coco: 0.6, perlite: 0.2, vermiculite: 0.1, castings: 0.1 };
-  }
+  const checkedIngredients = document.querySelectorAll('input[name="ingredients[]"]:checked');
   
-  // Calculate individual volumes
+  if (checkedIngredients.length === 0) {
+    alert('Please select at least one ingredient');
+    return;
+  }
+
+  // Get predefined ratios based on selected ingredients
+  const mix = getMixRatios(Array.from(checkedIngredients));
+  
+  if (Object.keys(mix).length === 0) {
+    alert('Invalid ingredient combination');
+    return;
+  }
+
+  displayResults(totalVolume, mix);
+}
+
+function displayResults(totalVolume, mix) {
+  const results = document.getElementById('results');
   const CUBIC_FEET_TO_QUARTS = 25.714;
   
   const volumes = Object.entries(mix)
@@ -93,8 +102,7 @@ function handleSubmit(e) {
         quarts: (cubicFeet * CUBIC_FEET_TO_QUARTS).toFixed(1)
       };
     });
-  
-  // Display results
+
   results.innerHTML = `
     <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Results</h2>
     <div class="space-y-2">
@@ -127,4 +135,22 @@ function handleSubmit(e) {
     </div>
   `;
   results.classList.remove('hidden');
+}
+
+function initializeMixDropdown() {
+  const dropdownButton = document.getElementById('mixDropdownButton');
+  const dropdown = document.getElementById('mixDropdown');
+
+  if (!dropdownButton || !dropdown) return;
+
+  dropdownButton.addEventListener('click', () => {
+    dropdown.classList.toggle('hidden');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target) && !dropdownButton.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
 }
