@@ -1,0 +1,38 @@
+---
+const badges = [
+  { id: 'coco', name: 'Coco Coir', color: 'yellow' },
+  { id: 'perlite', name: 'Perlite', color: 'blue' },
+  { id: 'vermiculite', name: 'Vermiculite', color: 'green' },
+  { id: 'castings', name: 'Worm Castings', color: 'gray' }
+];
+---
+
+<div id="mixBadges" class="inline-flex flex-wrap gap-1 sm:gap-2 items-center">
+  <span 
+    id="badge-coco"
+    class="hidden bg-orange-950 text-white text-[10px] sm:text-xs font-medium me-1 sm:me-2 px-1.5 sm:px-2.5 py-0.5 rounded-sm border border-orange-700 dark:bg-orange-950 dark:text-white dark:border-orange-800"
+  >
+    Coco<span class="badge-percentage ml-0.5 sm:ml-1"></span>
+  </span>
+
+  <span 
+    id="badge-perlite"
+    class="hidden bg-slate-300 text-gray-950 text-[10px] sm:text-xs font-medium me-1 sm:me-2 px-1.5 sm:px-2.5 py-0.5 rounded-sm border border-slate-400 dark:bg-slate-300 dark:text-gray-950 dark:border-slate-400"
+  >
+    Perlite<span class="badge-percentage ml-0.5 sm:ml-1"></span>
+  </span>
+
+  <span 
+    id="badge-vermiculite"
+    class="hidden bg-yellow-500 text-white text-[10px] sm:text-xs font-medium me-1 sm:me-2 px-1.5 sm:px-2.5 py-0.5 rounded-sm border border-yellow-400 dark:bg-yellow-500 dark:text-white dark:border-yellow-400"
+  >
+    Verm<span class="badge-percentage ml-0.5 sm:ml-1"></span>
+  </span>
+
+  <span 
+    id="badge-castings"
+    class="hidden bg-stone-800 text-white text-[10px] sm:text-xs font-medium me-1 sm:me-2 px-1.5 sm:px-2.5 py-0.5 rounded-sm border border-stone-700 dark:bg-stone-800 dark:text-white dark:border-stone-700"
+  >
+    Castings<span class="badge-percentage ml-0.5 sm:ml-1"></span>
+  </span>
+</div>

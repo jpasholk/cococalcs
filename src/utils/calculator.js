@@ -1,8 +1,13 @@
+import { initializeBadges } from './mixBadges.js';
+
 export function initializeCalculator() {
   const calculateButton = document.getElementById('calculateButton');
   
   // Initialize dropdown
   initializeMixDropdown();
+  
+  // Initialize badges
+  initializeBadges();
 
   // Handle calculate button click
   if (calculateButton) {

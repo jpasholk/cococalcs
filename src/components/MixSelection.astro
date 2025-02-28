@@ -1,4 +1,6 @@
 ---
+import MixBadges from './MixBadges.astro';
+
 const ingredients = [
   { id: 'coco', name: 'Coco Coir', defaultChecked: false },
   { id: 'perlite', name: 'Perlite', defaultChecked: false },
@@ -8,7 +10,10 @@ const ingredients = [
 ---
 
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-  <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Soil Mix</h2>
+  <div class="flex justify-between items-start mb-4">
+    <h2 class="sm:text-3xl text-2xl font-semibold dark:text-gray-200">Soil Mix</h2>
+    <MixBadges />
+  </div>
   
   <div class="space-y-4">
     <div class="relative">
