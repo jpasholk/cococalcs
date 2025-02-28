@@ -1,0 +1,34 @@
+---
+---
+
+<div id="results" class="hidden bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+  <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Results</h2>
+  
+  <!-- Total Volume Section -->
+  <div class="space-y-2 mb-6">
+    <h3 class="sm:text-xl dark:text-gray-200">Total Volume Needed:</h3>
+    <ul class="list-disc pl-5 dark:text-gray-200">
+      <li id="cubic-feet">0 cubic feet</li>
+      <li id="cubic-yards">0 cubic yards</li>
+    </ul>
+  </div>
+
+  <!-- Ingredients Section -->
+  <div class="space-y-2">
+    <h3 class="sm:text-xl dark:text-gray-200">Ingredients:</h3>
+    <ul class="list-disc pl-5" id="ingredients-list">
+      <!-- JavaScript will populate this list -->
+    </ul>
+  </div>
+
+  <!-- Recalculate Button -->
+  <div class="mt-6">
+    <button 
+      type="button"
+      onclick="window.location.reload()"
+      class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+    >
+      Calculate Another
+    </button>
+  </div>
+</div>

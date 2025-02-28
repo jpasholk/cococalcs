@@ -1,0 +1,54 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+  <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Dimensions</h2>
+  <div class="grid grid-cols-3 gap-4">
+    <!-- Length input -->
+    <div class="dimension-input">
+      <label for="length" class="block mb-2 dark:text-gray-200">Length (ft)</label>
+      <input
+        type="number"
+        id="length"
+        name="length"
+        min="0"
+        step="0.1"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+      />
+    </div>
+
+    <!-- Width input -->
+    <div class="dimension-input">
+      <label for="width" class="block mb-2 dark:text-gray-200">Width (ft)</label>
+      <input
+        type="number"
+        id="width"
+        name="width"
+        min="0"
+        step="0.1"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+      />
+    </div>
+
+    <!-- Height input -->
+    <div class="dimension-input">
+      <label for="height" class="block mb-2 dark:text-gray-200">Height (ft)</label>
+      <input
+        type="number"
+        id="height"
+        name="height"
+        min="0"
+        step="0.1"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+      />
+    </div>
+  </div>
+</div>

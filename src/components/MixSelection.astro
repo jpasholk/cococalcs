@@ -1,0 +1,35 @@
+---
+const mixOptions = [
+  { value: 'basic', label: 'Basic Mix (70 Coco/30 Perlite)' },
+  { value: 'advanced', label: 'Advanced Mix (60/20/10/10)' },
+  { value: 'custom', label: 'Custom Mix' }
+];
+---
+
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+  <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Soil Mix</h2>
+  
+  <div class="space-y-4">
+    <!-- Mix Type Selection -->
+    <div>
+      <label for="mixType" class="block mb-2 dark:text-gray-200">Select Mix Type</label>
+      <select 
+        id="mixType" 
+        name="mixType"
+        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+      >
+        {mixOptions.map(option => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Calculate Button -->
+    <button 
+      type="submit"
+      class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+    >
+      Calculate
+    </button>
+  </div>
+</div>
