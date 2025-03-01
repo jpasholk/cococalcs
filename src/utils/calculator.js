@@ -170,35 +170,73 @@ function displayResults(volume, mix) {
   // Clear and update displays
   document.getElementById('cubic-feet').textContent = `${volume.toFixed(1)} cubic feet`;
   document.getElementById('cubic-yards').textContent = `${(volume / 27).toFixed(2)} cubic yards`;
+  
+  // Update ingredients list classes - remove divide-y
+  ingredientsList.className = '';
   ingredientsList.innerHTML = '';
   
   // Create and sort ingredient items
-  const items = Object.entries(mix).map(([ingredient, ratio]) => {
-    const volume_ft = volume * ratio;
-    const volume_qt = volume_ft * 25.71429;
-    
-    const displayName = ingredient === 'coco' ? (cocoChecked ? 'Coco' : 'Alternative Media') : 
-                       ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
-    
-    // Determine if this ingredient should show quarts
-    const showQuarts = !['coco', 'alternative'].includes(ingredient);
-    
-    return { 
-      name: displayName, 
-      volume_ft, 
-      volume_qt, 
-      ratio,
-      showQuarts 
-    };
-  }).sort((a, b) => b.ratio - a.ratio);
+  const items = Object.entries(mix)
+    .map(([ingredient, ratio]) => {
+      const volume_ft = volume * ratio;
+      const volume_qt = volume_ft * 25.71429;
+      
+      const displayName = ingredient === 'coco' ? (cocoChecked ? 'Coco' : 'Alternative Media') : 
+                         ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
+      
+      return { 
+        name: displayName, 
+        volume_ft, 
+        volume_qt, 
+        ratio
+      };
+    })
+    .sort((a, b) => b.ratio - a.ratio);
+  
+  // Clear the list
+  ingredientsList.innerHTML = '';
   
   // Add items to list
-  items.forEach(item => {
+  items.forEach((item, index) => {
     const li = document.createElement('li');
-    li.textContent = item.showQuarts ?
-      `${item.name}: ${item.volume_ft.toFixed(2)} cu ft (${item.volume_qt.toFixed(1)} quarts)` :
-      `${item.name}: ${item.volume_ft.toFixed(2)} cu ft`;
-    li.className = 'dark:text-gray-200';
+    li.className = 'py-3 sm:py-4';
+    
+    // Only add border if not the last item
+    if (index !== items.length - 1) {
+      li.className += ' border-b border-gray-200 dark:border-gray-700';
+    }
+    
+    const container = document.createElement('div');
+    container.className = 'flex items-center justify-between';
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'flex-1 min-w-0';
+    
+    const nameHeading = document.createElement('h4');
+    nameHeading.className = 'text-base font-large text-gray-900 dark:text-white';
+    nameHeading.textContent = item.name;
+    
+    const volumePara = document.createElement('p');
+    volumePara.className = 'text-sm text-gray-500 dark:text-gray-400';
+    volumePara.textContent = `${item.volume_ft.toFixed(2)} cu ft`;
+    
+    const quartsDiv = document.createElement('div');
+    quartsDiv.className = 'inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-300';
+    quartsDiv.textContent = `${item.volume_qt.toFixed(1)} quarts`;
+    
+    contentDiv.appendChild(nameHeading);
+    contentDiv.appendChild(volumePara);
+    
+    container.appendChild(contentDiv);
+    container.appendChild(quartsDiv);
+    
+    li.appendChild(container);
+    
+    // Add divider only if not the last item
+    if (index < items.length - 1) {
+      li.classList.add('border-b', 'border-gray-200', 'dark:border-gray-700');
+    }
+    
     ingredientsList.appendChild(li);
   });
   

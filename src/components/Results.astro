@@ -2,28 +2,9 @@
 import { MEDIA_NOTE } from '../consts';
 ---
 
-<div id="results" class="hidden bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
-  <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Results</h2>
-  
-  <!-- Total Volume Section -->
-  <div class="space-y-2 mb-6">
-    <h3 class="sm:text-xl dark:text-gray-200">Total Volume Needed:</h3>
-    <ul class="list-disc pl-5 dark:text-gray-200">
-      <li id="cubic-feet">0 cubic feet</li>
-      <li id="cubic-yards">0 cubic yards</li>
-    </ul>
-  </div>
-
-  <!-- Ingredients Section -->
-  <div class="space-y-2">
-    <h3 class="sm:text-xl dark:text-gray-200">Ingredients:</h3>
-    <ul class="list-disc pl-5" id="ingredients-list">
-      <!-- JavaScript will populate this list -->
-    </ul>
-  </div>
-
-  <!-- Recalculate Button -->
-  <div class="mt-6">
+<div id="results" class="hidden bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-200 dark:border-gray-700">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-2xl sm:text-4xl font-bold dark:text-gray-200">Results</h2>
     <button 
       type="button"
       onclick="window.location.reload()"
@@ -33,7 +14,39 @@ import { MEDIA_NOTE } from '../consts';
     </button>
   </div>
 
-  <div id="mediaNote" class="hidden mt-4 text-sm text-yellow-600 dark:text-yellow-400">
-    {MEDIA_NOTE}
+  <div>
+    <!-- Total Volume Section -->
+    <div class="py-3 sm:py-4">
+      <div class="flex items-center">
+        <div class="flex-1 min-w-0">
+          <h3 class="text-2xl sm:text-4xl font-bold dark:text-gray-200 mb-4">
+            Total Volume Needed
+          </h3>
+          <p id="cubic-feet" class="text-sm text-gray-500 dark:text-gray-400">
+            0 cubic feet
+          </p>
+          <p id="cubic-yards" class="text-sm text-gray-500 dark:text-gray-400">
+            0 cubic yards
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ingredients Section -->
+    <div class="py-1">
+      <h3 class="text-2xl sm:text-4xl font-bold dark:text-gray-200 mb-4">
+        Ingredients
+      </h3>
+      <ul id="ingredients-list" role="list">
+        <!-- JavaScript will populate this list -->
+      </ul>
+    </div>
+
+    <!-- Media Note -->
+    <div id="mediaNote" class="hidden">
+      <p class="text-sm text-yellow-600 dark:text-yellow-400">
+        {MEDIA_NOTE}
+      </p>
+    </div>
   </div>
 </div>
