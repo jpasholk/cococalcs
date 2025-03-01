@@ -179,7 +179,8 @@ function displayResults(volume, mix) {
   const items = Object.entries(mix)
     .map(([ingredient, ratio]) => {
       const volume_ft = volume * ratio;
-      const volume_qt = volume_ft * 25.71429;
+      // Convert cubic feet to gallons (1 cubic foot = 7.48052 gallons)
+      const volume_gal = volume_ft * 7.48052;
       
       const displayName = ingredient === 'coco' ? (cocoChecked ? 'Coco' : 'Alternative Media') : 
                          ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
@@ -187,7 +188,7 @@ function displayResults(volume, mix) {
       return { 
         name: displayName, 
         volume_ft, 
-        volume_qt, 
+        volume_gal, 
         ratio
       };
     })
@@ -220,15 +221,15 @@ function displayResults(volume, mix) {
     volumePara.className = 'text-sm text-gray-500 dark:text-gray-400';
     volumePara.textContent = `${item.volume_ft.toFixed(2)} cu ft`;
     
-    const quartsDiv = document.createElement('div');
-    quartsDiv.className = 'inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-300';
-    quartsDiv.textContent = `${item.volume_qt.toFixed(1)} quarts`;
+    const gallonsDiv = document.createElement('div');
+    gallonsDiv.className = 'inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-300';
+    gallonsDiv.textContent = `${item.volume_gal.toFixed(1)} gallons`;
     
     contentDiv.appendChild(nameHeading);
     contentDiv.appendChild(volumePara);
     
     container.appendChild(contentDiv);
-    container.appendChild(quartsDiv);
+    container.appendChild(gallonsDiv);
     
     li.appendChild(container);
     
