@@ -1,4 +1,5 @@
 import { initializeBadges } from './mixBadges.js';
+import { RATIOS, ALTERNATIVE_MEDIA } from '../consts';
 
 export function initializeCalculator() {
   const calculateButton = document.getElementById('calculateButton');
@@ -18,38 +19,138 @@ export function initializeCalculator() {
   }
 }
 
-function getMixRatios(selectedIngredients) {
-  const ingredients = selectedIngredients.map(i => i.value).sort((a, b) => {
-    // Custom sort order
-    const order = { coco: 1, perlite: 2, vermiculite: 3, castings: 4 };
-    return order[a] - order[b];
+function handleCalculate() {
+  const checkedIngredients = document.querySelectorAll('input[name="ingredients[]"]:checked');
+  const hasCoco = Array.from(checkedIngredients).some(input => input.value === 'coco');
+  
+  if (checkedIngredients.length === 0) {
+    alert('Please select at least one ingredient');
+    return;
+  }
+
+  // Get dimensions and calculate regardless of ingredients
+  const lengthFeet = parseFloat(document.getElementById('length').value);
+  const widthFeet = parseFloat(document.getElementById('width').value);
+  const heightInches = parseFloat(document.getElementById('height').value);
+
+  if (isNaN(lengthFeet) || isNaN(widthFeet) || isNaN(heightInches)) {
+    alert('Please enter all dimensions');
+    return;
+  }
+
+  const totalVolume = lengthFeet * widthFeet * (heightInches / 12);
+
+  if (!hasCoco) {
+    showWarningModal().then(shouldContinue => {
+      if (shouldContinue) {
+        // Add coco to ingredients but keep it unchecked
+        const ingredients = [...checkedIngredients].map(i => i.value);
+        ingredients.push('coco');
+        ingredients.sort();
+        const key = ingredients.join(',');
+        const mix = RATIOS[key] ? 
+          Object.fromEntries(Object.entries(RATIOS[key]).map(([k, v]) => [k, v / 100])) : 
+          {};
+        displayResults(totalVolume, mix);
+      } else {
+        document.getElementById('coco').checked = true;
+        const event = new Event('change');
+        document.getElementById('coco').dispatchEvent(event);
+      }
+    });
+    return;
+  }
+
+  const mix = getMixRatios(Array.from(checkedIngredients));
+  displayResults(totalVolume, mix);
+}
+
+function showWarningModal() {
+  return new Promise((resolve) => {
+    const modal = document.getElementById('warning');
+    if (!modal) {
+      console.error('Warning modal not found');
+      return;
+    }
+
+    const messageEl = document.getElementById('warningMessage');
+    const factorsEl = document.getElementById('warningFactors');
+    const continueButton = document.getElementById('continueButton');
+    const cancelButton = document.getElementById('cancelButton');
+
+    // Add debug logging
+    console.log('Modal elements:', { modal, messageEl, factorsEl, continueButton, cancelButton });
+    console.log('Alternative media content:', ALTERNATIVE_MEDIA);
+
+    if (messageEl && factorsEl) {
+      messageEl.textContent = ALTERNATIVE_MEDIA.message;
+      factorsEl.innerHTML = ALTERNATIVE_MEDIA.factors
+        .map(factor => `<li>${factor}</li>`)
+        .join('');
+    }
+
+    modal.classList.remove('hidden');
+
+    continueButton.onclick = () => {
+      modal.classList.add('hidden');
+      resolve(true);
+    };
+
+    cancelButton.onclick = () => {
+      modal.classList.add('hidden');
+      resolve(false);
+    };
+
+    // Close on outside click
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+        resolve(false);
+      }
+    };
   });
+}
+
+function proceedWithCalculation(checkedIngredients, useAlternative) {
+  const lengthFeet = parseFloat(document.getElementById('length').value);
+  const widthFeet = parseFloat(document.getElementById('width').value);
+  const heightInches = parseFloat(document.getElementById('height').value);
+
+  if (isNaN(lengthFeet) || isNaN(widthFeet) || isNaN(heightInches)) {
+    alert('Please enter all dimensions');
+    return;
+  }
+
+  const totalVolume = lengthFeet * widthFeet * (heightInches / 12);
+  let mix = getMixRatios(Array.from(checkedIngredients));
+  
+  // Transform the mix for alternative media
+  if (useAlternative && mix.coco) {
+    mix = {
+      'alternative': mix.coco,
+      ...Object.fromEntries(Object.entries(mix).filter(([k]) => k !== 'coco'))
+    };
+  }
+
+  displayResults(totalVolume, mix, useAlternative);
+}
+
+function getMixRatios(selectedIngredients) {
+  const ingredients = selectedIngredients.map(i => i.value).sort();
   
   // If only one ingredient is selected, use 100% of that ingredient
   if (ingredients.length === 1) {
     return { [ingredients[0]]: 1.0 };
   }
   
-  const ratios = {
-    // Two ingredients (must include coco and perlite)
-    'coco,perlite': { coco: 0.7, perlite: 0.3 },
-    // Three ingredients (must include coco, perlite, and vermiculite)
-    'coco,perlite,vermiculite': { coco: 0.7, perlite: 0.2, vermiculite: 0.1 },
-    // Four ingredients (all ingredients)
-    'coco,perlite,vermiculite,castings': { 
-      coco: 0.57, 
-      perlite: 0.14, 
-      vermiculite: 0.14, 
-      castings: 0.14 
-    }
-  };
-
   const key = ingredients.join(',');
-  const mix = ratios[key];
   
-  // If we have a valid combination, return it
-  if (mix) {
-    return mix;
+  // If we have a predefined ratio, convert percentages to decimals
+  if (RATIOS[key]) {
+    return Object.entries(RATIOS[key]).reduce((acc, [ingredient, percentage]) => {
+      acc[ingredient] = percentage / 100;
+      return acc;
+    }, {});
   }
   
   // For any other combination, distribute evenly
@@ -60,86 +161,50 @@ function getMixRatios(selectedIngredients) {
   }, {});
 }
 
-function handleCalculate() {
-  // Get length and width in feet, height in inches
-  const lengthFeet = parseFloat(document.getElementById('length').value);
-  const widthFeet = parseFloat(document.getElementById('width').value);
-  const heightInches = parseFloat(document.getElementById('height').value);
-  const results = document.getElementById('results');
-
-  if (isNaN(lengthFeet) || isNaN(widthFeet) || isNaN(heightInches)) {
-    alert('Please enter all dimensions');
-    return;
-  }
-
-  // Calculate total volume in cubic feet (length * width * height/12)
-  const totalVolume = lengthFeet * widthFeet * (heightInches / 12);
-
-  const checkedIngredients = document.querySelectorAll('input[name="ingredients[]"]:checked');
+function displayResults(volume, mix) {
+  const resultsDiv = document.getElementById('results');
+  const ingredientsList = document.getElementById('ingredients-list');
+  const mediaNote = document.getElementById('mediaNote');
+  const cocoChecked = document.getElementById('coco').checked;
   
-  if (checkedIngredients.length === 0) {
-    alert('Please select at least one ingredient');
-    return;
-  }
-
-  // Get predefined ratios based on selected ingredients
-  const mix = getMixRatios(Array.from(checkedIngredients));
+  // Clear and update displays
+  document.getElementById('cubic-feet').textContent = `${volume.toFixed(1)} cubic feet`;
+  document.getElementById('cubic-yards').textContent = `${(volume / 27).toFixed(2)} cubic yards`;
+  ingredientsList.innerHTML = '';
   
-  if (Object.keys(mix).length === 0) {
-    alert('Invalid ingredient combination');
-    return;
-  }
-
-  displayResults(totalVolume, mix);
-}
-
-function displayResults(totalVolume, mix) {
-  const results = document.getElementById('results');
-  const CUBIC_FEET_TO_QUARTS = 25.714;
+  // Create and sort ingredient items
+  const items = Object.entries(mix).map(([ingredient, ratio]) => {
+    const volume_ft = volume * ratio;
+    const volume_qt = volume_ft * 25.71429;
+    
+    const displayName = ingredient === 'coco' ? (cocoChecked ? 'Coco' : 'Alternative Media') : 
+                       ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
+    
+    // Determine if this ingredient should show quarts
+    const showQuarts = !['coco', 'alternative'].includes(ingredient);
+    
+    return { 
+      name: displayName, 
+      volume_ft, 
+      volume_qt, 
+      ratio,
+      showQuarts 
+    };
+  }).sort((a, b) => b.ratio - a.ratio);
   
-  const volumes = Object.entries(mix)
-    .filter(([, ratio]) => ratio > 0)
-    .map(([material, ratio]) => {
-      const cubicFeet = totalVolume * ratio;
-      return {
-        material,
-        cubicFeet: cubicFeet.toFixed(2),
-        quarts: (cubicFeet * CUBIC_FEET_TO_QUARTS).toFixed(1)
-      };
-    });
-
-  results.innerHTML = `
-    <h2 class="sm:text-3xl text-2xl font-semibold mb-4 dark:text-gray-200">Results</h2>
-    <div class="space-y-2">
-      <h3 class="sm:text-xl dark:text-gray-200">Total Volume Needed:</h3>
-      <ul class="list-disc pl-5 dark:text-gray-200">
-        <li>${totalVolume.toFixed(2)} cubic feet</li>
-        <li>${(totalVolume / 27).toFixed(2)} cubic yards</li>
-      </ul>
-    </div>
-    <hr class="my-4 border-t border-gray-400">
-    <div class="space-y-2">
-      <h3 class="sm:text-xl dark:text-gray-200">Ingredients:</h3>
-      <ul class="list-disc pl-5">
-        ${volumes.map(({material, cubicFeet, quarts}) => {
-          if (material === 'coco') {
-            return `
-              <li class="dark:text-gray-200 capitalize">
-                ${material}: ${cubicFeet} cu ft (${(Number(cubicFeet) / 27).toFixed(2)} cu yd)
-              </li>
-            `;
-          } else {
-            return `
-              <li class="dark:text-gray-200 capitalize">
-                ${material}: ${cubicFeet} cu ft (${quarts} quarts)
-              </li>
-            `;
-          }
-        }).join('')}
-      </ul>
-    </div>
-  `;
-  results.classList.remove('hidden');
+  // Add items to list
+  items.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item.showQuarts ?
+      `${item.name}: ${item.volume_ft.toFixed(2)} cu ft (${item.volume_qt.toFixed(1)} quarts)` :
+      `${item.name}: ${item.volume_ft.toFixed(2)} cu ft`;
+    li.className = 'dark:text-gray-200';
+    ingredientsList.appendChild(li);
+  });
+  
+  // Toggle media note
+  mediaNote.classList.toggle('hidden', cocoChecked);
+  resultsDiv.classList.remove('hidden');
 }
 
 function initializeMixDropdown() {

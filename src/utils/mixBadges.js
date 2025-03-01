@@ -1,26 +1,10 @@
+import { RATIOS } from '../consts';
+
 const COLORS = {
   coco: 'orange',
   perlite: 'blue',
   vermiculite: 'yellow',
   castings: 'gray'
-};
-
-const RATIOS = {
-  'castings,coco,perlite,vermiculite': {  // Note: alphabetical order is important
-    coco: 60,
-    perlite: 18,
-    vermiculite: 12,
-    castings: 10
-  },
-  'coco,perlite': {
-    coco: 70,
-    perlite: 30
-  },
-  'coco,perlite,vermiculite': {
-    coco: 70,
-    perlite: 20,
-    vermiculite: 10
-  }
 };
 
 export function updateBadges() {

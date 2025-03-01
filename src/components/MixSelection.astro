@@ -1,12 +1,6 @@
 ---
 import MixBadges from './MixBadges.astro';
-
-const ingredients = [
-  { id: 'coco', name: 'Coco Coir', defaultChecked: false },
-  { id: 'perlite', name: 'Perlite', defaultChecked: false },
-  { id: 'vermiculite', name: 'Vermiculite', defaultChecked: false },
-  { id: 'castings', name: 'Worm Castings', defaultChecked: false }
-];
+import { INGREDIENTS } from '../consts';
 ---
 
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
@@ -30,7 +24,7 @@ const ingredients = [
 
       <div id="mixDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-full mt-2 dark:bg-gray-700 dark:divide-gray-600">
         <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="mixDropdownButton">
-          {ingredients.map(ingredient => (
+          {INGREDIENTS.map(ingredient => (
             <li>
               <div class="flex p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600">
                 <label class="inline-flex items-center w-full cursor-pointer">

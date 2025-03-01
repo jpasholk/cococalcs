@@ -3,15 +3,12 @@ import TabNav from './TabNav.astro';
 import DimensionsCard from './DimensionsCard.astro';
 import MixSelection from './MixSelection.astro';
 import Results from './Results.astro';
-
-// Define default soil mix ratios (moved from SoilCalculator.astro)
-const defaultMixes = {
-  basic: { coco: 70, perlite: 30 },
-  advanced: { coco: 60, perlite: 20, vermiculite: 10, castings: 10 }
-};
+import { RATIOS } from '../consts';
+import Warning from './Warning.astro';
 ---
 
 <div class="space-y-6">
+  <Warning />
   <TabNav />
   
   <div class="tab-content">
