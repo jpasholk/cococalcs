@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SoilCalculator from '../components/SoilCalculator.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
-<Layout>
+<Layout title={SITE_TITLE}>
   <SoilCalculator />
 </Layout>

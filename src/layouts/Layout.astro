@@ -1,11 +1,18 @@
 ---
 import Head from '../components/Head.astro';
 import "../styles/global.css";
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+    title?: string;
+}
+
+const { title = SITE_TITLE } = Astro.props;
 ---
 
 <!doctype html>
-<html class="dark:bg-gray-900" lang="en">
-    <Head />
+<html lang="en">
+    <Head title={title} />
     <body class="min-h-screen bg-gray-300 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <slot />
     </body>

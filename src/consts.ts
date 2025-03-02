@@ -148,3 +148,6 @@ export const CALCULATOR_PANELS: CalcPanelConfig[] = [
     comingSoonMessage: "Seed Starting calculator is under development."
   }
 ];
+
+export const SITE_TITLE = "Garden Soil Calculator";
+export const SITE_DESCRIPTION = "Calculate how much soil you need";

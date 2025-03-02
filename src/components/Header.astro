@@ -1,13 +1,15 @@
 ---
+import { SITE_TITLE } from '../consts';
+
 interface Props {
-  title: string;
+  title?: string;
 }
 
-const { title } = Astro.props;
+const { title = SITE_TITLE } = Astro.props;
 ---
 
 <header class="mb-4">
   <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
-  <h2 class="text-sm sm:text-lg md:text-xl text-gray-800 dark:text-gray-300 leading-tight max-w-[100%]">Calculate how much soil you need for your garden bed</h2>
+  <h2 class="text-sm sm:text-lg md:text-xl text-gray-800 dark:text-gray-300 leading-tight max-w-[100%]">Calculate how much soil you need for your garden</h2>
 </header>
 <hr class="my-4 border-t border-gray-400">
