@@ -78,21 +78,22 @@ function showWarningModal() {
         .join('');
     }
 
-    modal.classList.remove('hidden');
+    // Change from hidden to visible
+    modal.classList.add('visible');
 
     continueButton.onclick = () => {
-      modal.classList.add('hidden');
+      modal.classList.remove('visible');
       resolve(true);
     };
 
     cancelButton.onclick = () => {
-      modal.classList.add('hidden');
+      modal.classList.remove('visible');
       resolve(false);
     };
 
     modal.onclick = (e) => {
       if (e.target === modal) {
-        modal.classList.add('hidden');
+        modal.classList.remove('visible');
         resolve(false);
       }
     };
