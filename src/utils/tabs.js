@@ -29,14 +29,14 @@ export function initializeTabs() {
       // Deactivate all tabs
       tabs.forEach(t => {
         t.setAttribute('aria-selected', 'false');
-        t.classList.remove('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+        t.classList.remove('bg-indigo-800', 'text-white', 'hover:bg-indigo-700');
         t.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
       });
 
       // Activate clicked tab
       tab.setAttribute('aria-selected', 'true');
       tab.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
-      tab.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+      tab.classList.add('bg-indigo-800', 'text-white', 'hover:bg-indigo-700');
 
       // Handle panel transitions
       const newPanelId = tab.getAttribute('data-tab').substring(1);
