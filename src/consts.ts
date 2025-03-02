@@ -16,6 +16,15 @@ type AlternativeMedia = {
   factors: string[];
 };
 
+export interface CalcPanelConfig {
+  id: string;
+  title: string;
+  formId: string;
+  isHidden?: boolean;
+  isComingSoon?: boolean;
+  comingSoonMessage?: string;
+}
+
 // Core ingredients configuration
 // Defines the available ingredients and their default states
 export const INGREDIENTS: Ingredient[] = [
@@ -113,3 +122,29 @@ export const VOLUME_CONVERSIONS = {
   CUBIC_FEET_TO_QUARTS: 25.71429,
   CUBIC_FEET_TO_YARDS: 27,
 };
+
+export const CALCULATOR_PANELS: CalcPanelConfig[] = [
+  {
+    id: "garden-beds",
+    title: "Garden Bed",
+    formId: "calculatorForm",
+    isHidden: false,
+    isComingSoon: false
+  },
+  {
+    id: "small-pots",
+    title: "Pot",
+    formId: "smallPotsForm",
+    isHidden: true,
+    isComingSoon: true,
+    comingSoonMessage: "Small Pots calculator is under development."
+  },
+  {
+    id: "seed-starting",
+    title: "Seed Tray",
+    formId: "seedStartingForm",
+    isHidden: true,
+    isComingSoon: true,
+    comingSoonMessage: "Seed Starting calculator is under development."
+  }
+];
