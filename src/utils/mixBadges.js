@@ -49,10 +49,19 @@ export function updateBadges() {
 }
 
 export function initializeBadges() {
-  const inputs = document.querySelectorAll('input[name="ingredients[]"]');
-  inputs.forEach(input => {
-    input.addEventListener('change', updateBadges);
+  const mixBadgesContainer = document.getElementById('mixBadges');
+  if (!mixBadgesContainer) return;
+
+  // Make container visible
+  mixBadgesContainer.classList.remove('opacity-0');
+  
+  document.querySelectorAll('input[name="ingredients[]"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const badge = document.getElementById(`badge-${this.value}`);
+      if (badge) {
+        // Use visibility instead of display:none
+        badge.classList.toggle('invisible', !this.checked);
+      }
+    });
   });
-  // Initial update
-  updateBadges();
 }
