@@ -4,36 +4,46 @@ import SmallPotIcon from './icons/SmallPotIcon.astro';
 import SeedStartingIcon from './icons/SeedStartingIcon.astro';
 ---
 
-<div class="flex space-x-1 rounded-xl bg-white p-2 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-  <button
-    role="tab"
-    aria-selected="true"
-    data-tab="#garden-beds"
-    class="relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+<div class="rounded-xl bg-white p-2 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+  <div 
+    role="tablist" 
+    aria-label="Calculator types"
+    class="flex space-x-1"
   >
-    <GardenBedIcon />
-    <span class="text-xs sm:text-sm">Garden Beds</span>
-  </button>
-  
-  <button
-    role="tab"
-    aria-selected="false"
-    data-tab="#small-pots"
-    aria-controls="small-pots"
-    class="relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-  >
-    <SmallPotIcon />
-    <span class="text-xs sm:text-sm">Small Pots</span>
-  </button>
-  
-  <button
-    role="tab"
-    aria-selected="false"
-    data-tab="#seed-starting"
-    aria-controls="seed-starting"
-    class="relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-  >
-    <SeedStartingIcon />
-    <span class="text-xs sm:text-sm">Seed Starting</span>
-  </button>
+    <button
+      role="tab"
+      aria-selected="true"
+      aria-controls="garden-beds"
+      id="tab-garden-beds"
+      data-tab="#garden-beds"
+      class="relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+    >
+      <GardenBedIcon />
+      <span class="text-xs sm:text-sm">Garden Beds</span>
+    </button>
+    
+    <button
+      role="tab"
+      aria-selected="false"
+      aria-controls="small-pots"
+      id="tab-small-pots"
+      data-tab="#small-pots"
+      class="relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+    >
+      <SmallPotIcon />
+      <span class="text-xs sm:text-sm">Small Pots</span>
+    </button>
+    
+    <button
+      role="tab"
+      aria-selected="false"
+      aria-controls="seed-starting"
+      id="tab-seed-starting"
+      data-tab="#seed-starting"
+      class="relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+    >
+      <SeedStartingIcon />
+      <span class="text-xs sm:text-sm">Seed Starting</span>
+    </button>
+  </div>
 </div>

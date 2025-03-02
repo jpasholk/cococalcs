@@ -6,13 +6,13 @@ import Results from './Results.astro';
 import Warning from './Warning.astro';
 ---
 
-<div class="space-y-6">
+<div class="space-y-2 sm:space-y-6">
   <Warning />
   <TabNav />
   
   <div class="tab-content">
     <div id="garden-beds" role="tabpanel" aria-labelledby="tab-garden-beds">
-      <form id="calculatorForm" class="space-y-6">
+      <form id="calculatorForm" class="space-y-2 sm:space-y-6">
         <DimensionsCard title="Garden Bed Dimensions"/>
         <MixSelection title="Soil Mix" />
         <Results />
@@ -20,7 +20,7 @@ import Warning from './Warning.astro';
     </div>
     
     <div id="small-pots" class="hidden" role="tabpanel" aria-labelledby="tab-small-pots">
-      <form id="smallPotsForm" class="space-y-6 relative">
+      <form id="smallPotsForm" class="space-y-2 sm:space-y-6 relative">
         <div class="absolute inset-0 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm z-10 flex items-center justify-center">
           <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
             <h2 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Coming Soon!</h2>
@@ -34,7 +34,7 @@ import Warning from './Warning.astro';
     </div>
     
     <div id="seed-starting" class="hidden" role="tabpanel" aria-labelledby="tab-seed-starting">
-      <form id="seedStartingForm" class="space-y-6 relative">
+      <form id="seedStartingForm" class="space-y-2 sm:space-y-6 relative">
         <div class="absolute inset-0 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm z-10 flex items-center justify-center">
           <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
             <h2 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Coming Soon!</h2>
