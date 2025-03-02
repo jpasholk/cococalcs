@@ -168,7 +168,8 @@ function displayResults(volume, mix) {
         name: displayName, 
         volume_ft,
         volume_liquid,
-        ratio
+        ratio,
+        percentage: Math.round(ratio * 100)
       };
     })
     .sort((a, b) => b.ratio - a.ratio);
@@ -191,7 +192,7 @@ function displayResults(volume, mix) {
     
     const nameHeading = document.createElement('h4');
     nameHeading.className = 'text-base font-medium text-gray-900 dark:text-white';
-    nameHeading.textContent = item.name;
+    nameHeading.textContent = `${item.percentage}% ${item.name}`;
     
     const volumePara = document.createElement('p');
     volumePara.className = 'text-sm text-gray-500 dark:text-gray-400';
