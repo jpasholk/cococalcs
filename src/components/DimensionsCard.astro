@@ -7,11 +7,11 @@ const { title } = Astro.props;
 ---
 
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-200 dark:border-gray-700">
-  <h2 class="text-3xl sm:text-4xl font-bold dark:text-gray-200 mb-4">{title}</h2>
+  <h2 class="text-2xl sm:text-4xl font-bold dark:text-gray-200 mb-4">{title}</h2>
   <div class="grid grid-cols-3 gap-4">
     <!-- Length input -->
     <div class="dimension-input">
-      <label for="length" class="block mb-2 dark:text-gray-200">Length (ft)</label>
+      <label for="length" class="block mb-2 text-lg font-medium dark:text-gray-200">Length (ft)</label>
       <input
         type="number"
         inputmode="decimal"
@@ -27,7 +27,7 @@ const { title } = Astro.props;
 
     <!-- Width input -->
     <div class="dimension-input">
-      <label for="width" class="block mb-2 dark:text-gray-200">Width (ft)</label>
+      <label for="width" class="block mb-2 text-lg font-medium dark:text-gray-200">Width (ft)</label>
       <input
         type="number"
         inputmode="decimal"
@@ -43,7 +43,7 @@ const { title } = Astro.props;
 
     <!-- Height input -->
     <div class="dimension-input">
-      <label for="height" class="block mb-2 dark:text-gray-200">Height (in)</label>
+      <label for="height" class="block mb-2 text-lg font-medium dark:text-gray-200">Height (in)</label>
       <input
         type="number"
         inputmode="decimal"
