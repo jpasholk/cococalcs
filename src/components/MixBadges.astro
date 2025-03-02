@@ -2,11 +2,11 @@
 import { BADGE_CONFIG } from '../consts';
 ---
 
-<div id="mixBadges" class="grid grid-cols-2 gap-2 items-start min-h-[5rem]">
+<div id="mixBadges" class="grid grid-cols-2 gap-3 items-start min-h-[6rem] sm:min-h-[5rem]">
   {BADGE_CONFIG.map(badge => (
     <span 
       id={`badge-${badge.id}`}
-      class={`hidden ${badge.bgClass} ${badge.textClass} text-[0.75rem] sm:text-[0.875rem] font-medium px-3 py-1.5 sm:py-0.5 rounded-md border ${badge.borderClass} dark:${badge.bgClass} dark:${badge.textClass} dark:${badge.borderClass} flex items-center justify-center w-full`}
+      class={`hidden ${badge.bgClass} ${badge.textClass} text-[0.75rem] sm:text-[0.875rem] font-medium px-3 py-2 sm:py-0.5 rounded-md border ${badge.borderClass} dark:${badge.bgClass} dark:${badge.textClass} dark:${badge.borderClass} flex items-center justify-center w-full`}
     >
       {badge.id === 'vermiculite' || badge.id === 'castings' ? (
         <>
