@@ -10,11 +10,6 @@ const COLORS = {
 export function updateBadges() {
   const checkedInputs = document.querySelectorAll('input[name="ingredients[]"]:checked');
   
-  // Hide all badges first
-  document.querySelectorAll('[id^="badge-"]').forEach(badge => {
-    badge.classList.add('hidden');
-  });
-  
   // Sort ingredients alphabetically to match RATIOS keys format
   const ingredients = Array.from(checkedInputs)
     .map(input => input.value)
@@ -27,7 +22,7 @@ export function updateBadges() {
   if (RATIOS[key]) {
     currentRatios = RATIOS[key];
   } else {
-    // Fall back to equal distribution only if no ratio is defined
+    // Fall back to equal distribution
     const equalShare = Math.round(100 / ingredients.length);
     currentRatios = ingredients.reduce((acc, curr) => {
       acc[curr] = equalShare;
@@ -35,15 +30,17 @@ export function updateBadges() {
     }, {});
   }
 
-  // Update badges with correct percentages
-  checkedInputs.forEach(input => {
-    const badge = document.getElementById(`badge-${input.value}`);
-    if (badge) {
-      const percentageSpan = badge.querySelector('.badge-percentage');
-      const percentage = currentRatios[input.value];
-      percentageSpan.textContent = ` ${percentage}%`;
-      badge.classList.remove('hidden');
-      console.log(`Setting ${input.value} to ${percentage}%`); // Debug log
+  // Update all badges
+  document.querySelectorAll('[id^="badge-"]').forEach(badge => {
+    const ingredientId = badge.id.replace('badge-', '');
+    const percentageSpan = badge.querySelector('.badge-percentage');
+    
+    if (currentRatios[ingredientId]) {
+      badge.classList.remove('invisible');
+      percentageSpan.textContent = ` ${currentRatios[ingredientId]}%`;
+    } else {
+      badge.classList.add('invisible');
+      percentageSpan.textContent = '';
     }
   });
 }
@@ -55,34 +52,15 @@ export function initializeBadges() {
   // Make container visible
   mixBadgesContainer.classList.remove('opacity-0');
   
+  // Initialize all badges as invisible
+  document.querySelectorAll('[id^="badge-"]').forEach(badge => {
+    badge.classList.add('invisible');
+  });
+  
+  // Add change event listeners
   document.querySelectorAll('input[name="ingredients[]"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      const badge = document.getElementById(`badge-${this.value}`);
-      if (badge) {
-        // Show/hide badge
-        badge.classList.toggle('invisible', !this.checked);
-        
-        // Update percentages
-        const checkedBoxes = document.querySelectorAll('input[name="ingredients[]"]:checked');
-        const totalChecked = checkedBoxes.length;
-        
-        if (this.checked && totalChecked > 0) {
-          const percentage = Math.round(100 / totalChecked);
-          const percentageSpan = badge.querySelector('.badge-percentage');
-          if (percentageSpan) {
-            percentageSpan.textContent = `${percentage}%`;
-          }
-        }
-        
-        // Update all badge percentages
-        checkedBoxes.forEach(box => {
-          const otherBadge = document.getElementById(`badge-${box.value}`);
-          const percentageSpan = otherBadge?.querySelector('.badge-percentage');
-          if (percentageSpan) {
-            percentageSpan.textContent = `${Math.round(100 / totalChecked)}%`;
-          }
-        });
-      }
+    checkbox.addEventListener('change', () => {
+      updateBadges();
     });
   });
 }
