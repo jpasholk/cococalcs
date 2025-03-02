@@ -105,3 +105,11 @@ export const BADGE_CONFIG = [
     textClass: 'text-white'
   }
 ];
+
+// Volume conversion constants
+// Defines conversion factors for different volume units
+export const VOLUME_CONVERSIONS = {
+  CUBIC_FEET_TO_GALLONS: 7.48052,
+  CUBIC_FEET_TO_QUARTS: 25.71429,
+  CUBIC_FEET_TO_YARDS: 27,
+};

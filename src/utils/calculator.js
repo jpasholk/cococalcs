@@ -1,5 +1,5 @@
 import { initializeBadges } from './mixBadges.js';
-import { RATIOS, ALTERNATIVE_MEDIA } from '../consts';
+import { RATIOS, ALTERNATIVE_MEDIA, VOLUME_CONVERSIONS } from '../consts';
 
 export function initializeCalculator() {
   const calculateButton = document.getElementById('calculateButton');
@@ -28,7 +28,6 @@ function handleCalculate() {
     return;
   }
 
-  // Get dimensions and calculate regardless of ingredients
   const lengthFeet = parseFloat(document.getElementById('length').value);
   const widthFeet = parseFloat(document.getElementById('width').value);
   const heightInches = parseFloat(document.getElementById('height').value);
@@ -40,17 +39,13 @@ function handleCalculate() {
 
   const totalVolume = lengthFeet * widthFeet * (heightInches / 12);
 
+  // Simplify the logic for mix calculation
   if (!hasCoco) {
     showWarningModal().then(shouldContinue => {
       if (shouldContinue) {
-        // Add coco to ingredients but keep it unchecked
         const ingredients = [...checkedIngredients].map(i => i.value);
         ingredients.push('coco');
-        ingredients.sort();
-        const key = ingredients.join(',');
-        const mix = RATIOS[key] ? 
-          Object.fromEntries(Object.entries(RATIOS[key]).map(([k, v]) => [k, v / 100])) : 
-          {};
+        const mix = getMixRatios(ingredients);
         displayResults(totalVolume, mix);
       } else {
         document.getElementById('coco').checked = true;
@@ -61,26 +56,20 @@ function handleCalculate() {
     return;
   }
 
-  const mix = getMixRatios(Array.from(checkedIngredients));
+  const ingredients = Array.from(checkedIngredients).map(i => i.value);
+  const mix = getMixRatios(ingredients);
   displayResults(totalVolume, mix);
 }
 
 function showWarningModal() {
   return new Promise((resolve) => {
     const modal = document.getElementById('warning');
-    if (!modal) {
-      console.error('Warning modal not found');
-      return;
-    }
+    if (!modal) return;
 
     const messageEl = document.getElementById('warningMessage');
     const factorsEl = document.getElementById('warningFactors');
     const continueButton = document.getElementById('continueButton');
     const cancelButton = document.getElementById('cancelButton');
-
-    // Add debug logging
-    console.log('Modal elements:', { modal, messageEl, factorsEl, continueButton, cancelButton });
-    console.log('Alternative media content:', ALTERNATIVE_MEDIA);
 
     if (messageEl && factorsEl) {
       messageEl.textContent = ALTERNATIVE_MEDIA.message;
@@ -101,7 +90,6 @@ function showWarningModal() {
       resolve(false);
     };
 
-    // Close on outside click
     modal.onclick = (e) => {
       if (e.target === modal) {
         modal.classList.add('hidden');
@@ -135,25 +123,19 @@ function proceedWithCalculation(checkedIngredients, useAlternative) {
   displayResults(totalVolume, mix, useAlternative);
 }
 
-function getMixRatios(selectedIngredients) {
-  const ingredients = selectedIngredients.map(i => i.value).sort();
-  
-  // If only one ingredient is selected, use 100% of that ingredient
-  if (ingredients.length === 1) {
-    return { [ingredients[0]]: 1.0 };
-  }
-  
+function getMixRatios(ingredients) {
+  // Sort ingredients for consistent key lookup
+  ingredients.sort();
   const key = ingredients.join(',');
   
-  // If we have a predefined ratio, convert percentages to decimals
+  // If we have a predefined ratio, use it
   if (RATIOS[key]) {
-    return Object.entries(RATIOS[key]).reduce((acc, [ingredient, percentage]) => {
-      acc[ingredient] = percentage / 100;
-      return acc;
-    }, {});
+    return Object.fromEntries(
+      Object.entries(RATIOS[key]).map(([k, v]) => [k, v / 100])
+    );
   }
   
-  // For any other combination, distribute evenly
+  // Otherwise, distribute evenly
   const equalShare = 1 / ingredients.length;
   return ingredients.reduce((acc, ingredient) => {
     acc[ingredient] = equalShare;
@@ -166,43 +148,37 @@ function displayResults(volume, mix) {
   const ingredientsList = document.getElementById('ingredients-list');
   const mediaNote = document.getElementById('mediaNote');
   const cocoChecked = document.getElementById('coco').checked;
-  
-  // Clear and update displays
+
   document.getElementById('cubic-feet').textContent = `${volume.toFixed(1)} cubic feet`;
-  document.getElementById('cubic-yards').textContent = `${(volume / 27).toFixed(2)} cubic yards`;
+  document.getElementById('cubic-yards').textContent = 
+    `${(volume / VOLUME_CONVERSIONS.CUBIC_FEET_TO_YARDS).toFixed(2)} cubic yards`;
   
-  // Update ingredients list classes - remove divide-y
-  ingredientsList.className = '';
-  ingredientsList.innerHTML = '';
-  
-  // Create and sort ingredient items
   const items = Object.entries(mix)
     .map(([ingredient, ratio]) => {
       const volume_ft = volume * ratio;
-      // Convert cubic feet to gallons (1 cubic foot = 7.48052 gallons)
-      const volume_gal = volume_ft * 7.48052;
+      const volume_liquid = ingredient === 'coco' ? 
+        { value: volume_ft * VOLUME_CONVERSIONS.CUBIC_FEET_TO_GALLONS, unit: 'gallons' } : 
+        { value: volume_ft * VOLUME_CONVERSIONS.CUBIC_FEET_TO_QUARTS, unit: 'quarts' };
       
-      const displayName = ingredient === 'coco' ? (cocoChecked ? 'Coco' : 'Alternative Media') : 
-                         ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
+      const displayName = ingredient === 'coco' ? 
+        (cocoChecked ? 'Coco' : 'Alternative Media') : 
+        ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
       
       return { 
         name: displayName, 
-        volume_ft, 
-        volume_gal, 
+        volume_ft,
+        volume_liquid,
         ratio
       };
     })
     .sort((a, b) => b.ratio - a.ratio);
-  
-  // Clear the list
+
   ingredientsList.innerHTML = '';
   
-  // Add items to list
   items.forEach((item, index) => {
     const li = document.createElement('li');
     li.className = 'py-3 sm:py-4';
     
-    // Only add border if not the last item
     if (index !== items.length - 1) {
       li.className += ' border-b border-gray-200 dark:border-gray-700';
     }
@@ -214,36 +190,29 @@ function displayResults(volume, mix) {
     contentDiv.className = 'flex-1 min-w-0';
     
     const nameHeading = document.createElement('h4');
-    nameHeading.className = 'text-base font-large text-gray-900 dark:text-white';
+    nameHeading.className = 'text-base font-medium text-gray-900 dark:text-white';
     nameHeading.textContent = item.name;
     
     const volumePara = document.createElement('p');
     volumePara.className = 'text-sm text-gray-500 dark:text-gray-400';
     volumePara.textContent = `${item.volume_ft.toFixed(2)} cu ft`;
     
-    const gallonsDiv = document.createElement('div');
-    gallonsDiv.className = 'inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-300';
-    gallonsDiv.textContent = `${item.volume_gal.toFixed(1)} gallons`;
+    const liquidDiv = document.createElement('div');
+    liquidDiv.className = 'inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-300';
+    liquidDiv.textContent = `${item.volume_liquid.value.toFixed(1)} ${item.volume_liquid.unit}`;
     
     contentDiv.appendChild(nameHeading);
     contentDiv.appendChild(volumePara);
     
     container.appendChild(contentDiv);
-    container.appendChild(gallonsDiv);
+    container.appendChild(liquidDiv);
     
     li.appendChild(container);
-    
-    // Add divider only if not the last item
-    if (index < items.length - 1) {
-      li.classList.add('border-b', 'border-gray-200', 'dark:border-gray-700');
-    }
-    
     ingredientsList.appendChild(li);
   });
-  
-  // Toggle media note
-  mediaNote.classList.toggle('hidden', cocoChecked);
+
   resultsDiv.classList.remove('hidden');
+  mediaNote.classList.toggle('hidden', cocoChecked);
 }
 
 function initializeMixDropdown() {
