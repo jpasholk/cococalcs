@@ -6,7 +6,7 @@ import { BADGE_CONFIG } from '../consts';
   {BADGE_CONFIG.map(badge => (
     <span 
       id={`badge-${badge.id}`}
-      class={`invisible ${badge.bgClass} ${badge.textClass} text-[0.75rem] sm:text-[0.875rem] font-medium px-3 py-2 sm:py-1 rounded-md border ${badge.borderClass} dark:${badge.bgClass} dark:${badge.textClass} dark:${badge.borderClass} flex items-center justify-center`}
+      class={`invisible ${badge.bgClass} ${badge.textClass} text-[0.75rem] sm:text-[0.875rem] font-medium px-3 py-2 sm:py-1 rounded-md border ${badge.borderClass} dark:${badge.bgClass} dark:${badge.textClass} dark:${badge.borderClass} flex items-center justify-center whitespace-nowrap`}
     >
       {badge.id === 'vermiculite' || badge.id === 'castings' ? (
         <>
