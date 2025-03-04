@@ -88,6 +88,17 @@ function showWarningModal() {
 
     cancelButton.onclick = () => {
       modal.classList.remove('visible');
+      document.getElementById('coco').checked = true;
+      const event = new Event('change');
+      document.getElementById('coco').dispatchEvent(event);
+      
+      // Get updated ingredients and recalculate
+      const checkedIngredients = document.querySelectorAll('input[name="ingredients[]"]:checked');
+      const ingredients = Array.from(checkedIngredients).map(i => i.value);
+      const mix = getMixRatios(ingredients);
+      const totalVolume = calculateVolume();
+      displayResults(totalVolume, mix);
+      
       resolve(false);
     };
 
@@ -98,6 +109,14 @@ function showWarningModal() {
       }
     };
   });
+}
+
+// Helper function to calculate volume
+function calculateVolume() {
+  const lengthFeet = parseFloat(document.getElementById('length').value);
+  const widthFeet = parseFloat(document.getElementById('width').value);
+  const heightInches = parseFloat(document.getElementById('height').value);
+  return lengthFeet * widthFeet * (heightInches / 12);
 }
 
 function proceedWithCalculation(checkedIngredients, useAlternative) {
@@ -161,8 +180,11 @@ function displayResults(volume, mix) {
         { value: volume_ft * VOLUME_CONVERSIONS.CUBIC_FEET_TO_GALLONS, unit: 'gallons' } : 
         { value: volume_ft * VOLUME_CONVERSIONS.CUBIC_FEET_TO_QUARTS, unit: 'quarts' };
       
+      // Get the current state of the coco checkbox
+      const currentCocoState = document.getElementById('coco').checked;
+      
       const displayName = ingredient === 'coco' ? 
-        (cocoChecked ? 'Coco' : 'Alternative Media') : 
+        (currentCocoState ? 'Coco' : 'Alternative Media') : 
         ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
       
       return { 
