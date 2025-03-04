@@ -165,12 +165,12 @@ export const CALCULATOR_PANELS: CalcPanelConfig[] = [
     isComingSoon: false
   },
   {
-    id: "small-pots",
-    title: "Pot",
-    formId: "smallPotsForm",
+    id: "garden-pots",
+    title: "Garden Pots",
+    formId: "gardenPotsForm",
     isHidden: true,
-    isComingSoon: true,
-    comingSoonMessage: "Small Pots calculator is under development."
+    isComingSoon: true, 
+    comingSoonMessage: "Garden Pots calculator coming soon!"
   },
   {
     id: "seed-starting",

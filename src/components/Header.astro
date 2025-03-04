@@ -2,10 +2,10 @@
 import { SITE_TITLE } from '../consts';
 
 interface Props {
-  title?: string;
+  title: string;
 }
 
-const { title = SITE_TITLE } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <header class="mb-4">

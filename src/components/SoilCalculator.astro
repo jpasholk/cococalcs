@@ -2,10 +2,11 @@
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Calculator from './Calculator.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
 <div class="max-w-2xl mx-auto p-6 dark:bg-gray-900">
-  <Header title="Garden Bed Soil Calculator" />
+  <Header title={SITE_TITLE} />
   <Calculator />
   <Footer />
 </div>

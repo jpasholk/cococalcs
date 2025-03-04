@@ -30,12 +30,12 @@ export function initializeTabs() {
       tabs.forEach(t => {
         t.setAttribute('aria-selected', 'false');
         t.classList.remove('bg-indigo-800', 'text-white', 'hover:bg-indigo-700');
-        t.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
+        t.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:bg-indigo-50', 'dark:hover:bg-indigo-900/20');
       });
 
       // Activate clicked tab
       tab.setAttribute('aria-selected', 'true');
-      tab.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-100', 'dark:hover:bg-gray-700');
+      tab.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:bg-indigo-50', 'dark:hover:bg-indigo-900/20');
       tab.classList.add('bg-indigo-800', 'text-white', 'hover:bg-indigo-700');
 
       // Handle panel transitions
