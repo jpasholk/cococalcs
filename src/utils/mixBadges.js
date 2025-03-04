@@ -1,48 +1,52 @@
 import { RATIOS } from '../consts';
 
-const COLORS = {
-  coco: 'orange',
-  perlite: 'blue',
-  vermiculite: 'yellow',
-  castings: 'gray'
-};
-
 export function updateBadges() {
   const checkedInputs = document.querySelectorAll('input[name="ingredients[]"]:checked');
+  const cocoChecked = Array.from(checkedInputs).some(input => input.value === 'coco');
   
-  // Sort ingredients alphabetically to match RATIOS keys format
   const ingredients = Array.from(checkedInputs)
     .map(input => input.value)
     .sort();
   
-  const key = ingredients.join(',');
-  
-  // Get the correct ratio object
-  let currentRatios;
-  if (RATIOS[key]) {
-    currentRatios = RATIOS[key];
-  } else {
-    // Fall back to equal distribution
-    const equalShare = Math.round(100 / ingredients.length);
-    currentRatios = ingredients.reduce((acc, curr) => {
-      acc[curr] = equalShare;
-      return acc;
-    }, {});
+  // Always include coco in the ratio calculation
+  const ratioIngredients = [...ingredients];
+  if (!cocoChecked) {
+    ratioIngredients.push('coco');
+    ratioIngredients.sort();
   }
+  
+  const key = ratioIngredients.join(',');
+  const currentRatios = RATIOS[key] || getEqualRatios(ratioIngredients);
 
   // Update all badges
   document.querySelectorAll('[id^="badge-"]').forEach(badge => {
     const ingredientId = badge.id.replace('badge-', '');
     const percentageSpan = badge.querySelector('.badge-percentage');
+    const nameSpans = badge.querySelectorAll('.badge-name');
     
     if (currentRatios[ingredientId]) {
       badge.classList.remove('invisible');
+      
+      if (ingredientId === 'coco') {
+        nameSpans.forEach(span => {
+          span.textContent = cocoChecked ? 'Coco' : 'Alt. Media';
+        });
+      }
+      
       percentageSpan.textContent = ` ${currentRatios[ingredientId]}%`;
     } else {
       badge.classList.add('invisible');
       percentageSpan.textContent = '';
     }
   });
+}
+
+function getEqualRatios(ingredients) {
+  const equalShare = Math.round(100 / ingredients.length);
+  return ingredients.reduce((acc, curr) => {
+    acc[curr] = equalShare;
+    return acc;
+  }, {});
 }
 
 export function initializeBadges() {

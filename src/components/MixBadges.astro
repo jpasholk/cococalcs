@@ -10,10 +10,12 @@ import { BADGE_CONFIG } from '../consts';
     >
       {badge.id === 'vermiculite' || badge.id === 'castings' ? (
         <>
-          <span class="sm:hidden">{badge.shortName}</span>
-          <span class="hidden sm:inline">{badge.name}</span>
+          <span class="badge-name sm:hidden">{badge.shortName}</span>
+          <span class="badge-name hidden sm:inline">{badge.name}</span>
         </>
-      ) : badge.shortName}
+      ) : (
+        <span class="badge-name">{badge.shortName}</span>
+      )}
       <span class="badge-percentage ml-1"></span>
     </span>
   ))}

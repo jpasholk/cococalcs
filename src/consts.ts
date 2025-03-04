@@ -37,16 +37,14 @@ export const INGREDIENTS: Ingredient[] = [
 // Mix ratio configurations
 // Defines the percentage breakdowns for different ingredient combinations
 export const RATIOS: Ratios = {
+  // Four ingredients
   'castings,coco,perlite,vermiculite': {
     coco: 60,
     perlite: 18,
     vermiculite: 12,
     castings: 10
   },
-  'coco,perlite': {
-    coco: 70,
-    perlite: 30
-  },
+  // Three ingredients
   'coco,perlite,vermiculite': {
     coco: 70,
     perlite: 20,
@@ -56,6 +54,41 @@ export const RATIOS: Ratios = {
     coco: 60,
     perlite: 30,
     castings: 10
+  },
+  'castings,coco,vermiculite': {
+    coco: 70,
+    vermiculite: 20,
+    castings: 10
+  },
+  'castings,perlite,vermiculite': {
+    perlite: 40,
+    vermiculite: 40,
+    castings: 20
+  },
+  // Two ingredients
+  'coco,perlite': {
+    coco: 70,
+    perlite: 30
+  },
+  'coco,vermiculite': {
+    coco: 80,
+    vermiculite: 20
+  },
+  'castings,coco': {
+    coco: 85,
+    castings: 15
+  },
+  'perlite,vermiculite': {
+    perlite: 50,
+    vermiculite: 50
+  },
+  'castings,perlite': {
+    perlite: 75,
+    castings: 25
+  },
+  'castings,vermiculite': {
+    vermiculite: 75,
+    castings: 25
   }
 };
 
