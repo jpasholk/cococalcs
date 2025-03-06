@@ -1,0 +1,13 @@
+---
+import { CARD_STYLES } from '../consts';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={[CARD_STYLES.default, className]}>
+  <slot />
+</div>

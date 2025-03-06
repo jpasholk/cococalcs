@@ -184,3 +184,29 @@ export const CALCULATOR_PANELS: CalcPanelConfig[] = [
 
 export const SITE_TITLE = "Garden Soil Calculator";
 export const SITE_DESCRIPTION = "Calculate how much soil you need";
+
+export const BUTTON_STYLES = {
+  base: "px-4 py-2 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800",
+  variants: {
+    primary: "bg-indigo-800 text-white hover:bg-indigo-700 focus:ring-indigo-800",
+    secondary: "bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300",
+    warning: "bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-300"
+  },
+  width: {
+    full: "w-full",
+    default: ""
+  }
+};
+
+// Define type for variant keys
+export type ButtonVariant = keyof typeof BUTTON_STYLES.variants;
+
+export const TAB_STYLES = {
+  base: "relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md",
+  active: "bg-indigo-800 text-white hover:bg-indigo-700",
+  inactive: "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+};
+
+export const CARD_STYLES = {
+  default: "bg-white/80 dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-400 dark:border-gray-700"
+};

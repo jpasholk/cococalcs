@@ -1,4 +1,7 @@
 ---
+import Card from './Card.astro';
+import NumberInput from './NumberInput.astro';
+
 interface Props {
   title: string;
 }
@@ -6,55 +9,11 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<div class="bg-white/80 dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-400 dark:border-gray-700">
+<Card>
   <h2 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-200 mb-4">{title}</h2>
   <div class="grid grid-cols-3 gap-4">
-    <!-- Length input -->
-    <div class="dimension-input">
-      <label for="length" class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-200">Length (ft)</label>
-      <input
-        type="number"
-        inputmode="decimal"
-        id="length"
-        name="length"
-        min="0"
-        step="0.1"
-        value="6"
-        required
-        class="w-full p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-      />
-    </div>
-
-    <!-- Width input -->
-    <div class="dimension-input">
-      <label for="width" class="block mb-2 text-lg font-medium dark:text-gray-200">Width (ft)</label>
-      <input
-        type="number"
-        inputmode="decimal"
-        id="width"
-        name="width"
-        min="0"
-        step="0.1"
-        value="3"
-        required
-        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-      />
-    </div>
-
-    <!-- Height input -->
-    <div class="dimension-input">
-      <label for="height" class="block mb-2 text-lg font-medium dark:text-gray-200">Height (in)</label>
-      <input
-        type="number"
-        inputmode="decimal"
-        id="height"
-        name="height"
-        min="0"
-        step="0.1"
-        value="12"
-        required
-        class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-      />
-    </div>
+    <NumberInput id="length" label="Length" value="6" unit="ft" />
+    <NumberInput id="width" label="Width" value="3" unit="ft" />
+    <NumberInput id="height" label="Height" value="12" unit="in" />
   </div>
-</div>
+</Card>

@@ -1,0 +1,36 @@
+---
+import { BUTTON_STYLES } from '../consts';
+import type { ButtonVariant } from '../consts';
+
+interface Props {
+  type?: "button" | "submit" | "reset";
+  variant?: ButtonVariant;
+  class?: string;
+  id?: string;
+  onClick?: string;
+  disabled?: boolean;
+  fullWidth?: boolean;
+}
+
+const { 
+  type = "button",
+  variant = "primary",
+  class: className,
+  id,
+  onClick,
+  disabled = false,
+  fullWidth = false,
+} = Astro.props;
+
+const widthClass = fullWidth ? BUTTON_STYLES.width.full : BUTTON_STYLES.width.default;
+---
+
+<button
+  type={type}
+  id={id}
+  class:list={[BUTTON_STYLES.base, BUTTON_STYLES.variants[variant], widthClass, className]}
+  onclick={onClick}
+  disabled={disabled}
+>
+  <slot />
+</button>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  value: string;
+  unit: string;
+  step?: string;
+  min?: string;
+}
+
+const { id, label, value, unit, step = "0.1", min = "0" } = Astro.props;
+---
+
+<div class="dimension-input">
+  <label for={id} class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-200">
+    {label} ({unit})
+  </label>
+  <input
+    type="number"
+    inputmode="decimal"
+    id={id}
+    name={id}
+    min={min}
+    step={step}
+    value={value}
+    required
+    class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+  />
+</div>
