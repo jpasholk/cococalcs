@@ -1,13 +1,23 @@
 ---
 import Card from './Card.astro';
 import Button from './Button.astro';
+import ClipboardIcon from './icons/ClipboardIcon.astro';
 import { MEDIA_NOTE } from '../consts';
 ---
 
 <div id="results" class="hidden">
   <Card>
     <div class="flex items-center justify-between mb-4">
-      <h2 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-200">Results</h2>
+      <div class="flex items-center gap-2">
+        <h2 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-200">Results</h2>
+        <button
+          id="copyResults"
+          class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+          title="Copy results to clipboard"
+        >
+          <ClipboardIcon class="w-6 h-6" />
+        </button>
+      </div>
       <Button 
         onClick="window.location.reload()"
         variant="primary"
@@ -52,3 +62,8 @@ import { MEDIA_NOTE } from '../consts';
     </div>
   </Card>
 </div>
+
+<script>
+  import { setupClipboard } from '../utils/clipboard';
+  setupClipboard();
+</script>
