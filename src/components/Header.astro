@@ -1,16 +1,27 @@
 ---
 import { SITE_TITLE } from '../consts';
+import NavDropdown from './NavDropdown.astro';
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+
+const navItems = [
+  { name: 'Garden Pots', href: '#', badge: 'Coming Soon' },
+  { name: 'Seed Starting', href: '#', badge: 'Coming Soon' }
+];
 ---
 
 <header class="mb-4">
-  <p class="text-s text-indigo-600 dark:text-indigo-400 mt-1">Beta Version - Currently in Testing</p>
-  <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
-  <h2 class="text-sm sm:text-lg md:text-xl text-gray-800 dark:text-gray-300 leading-tight max-w-[100%]">Calculate how much soil you need for your garden</h2>
+  <div class="flex justify-between items-start">
+    <div>
+      <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
+      <h2 class="text-sm sm:text-lg md:text-xl text-gray-800 dark:text-gray-300 leading-tight max-w-[100%]">Calculate how much soil you need for your garden</h2>
+    </div>
+
+    <NavDropdown items={navItems} />
+  </div>
+  <hr class="my-4 border-t border-gray-400">
 </header>
-<hr class="my-4 border-t border-gray-400">

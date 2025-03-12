@@ -24,6 +24,7 @@ const { title } = Astro.props;
       <button 
         id="mixDropdownButton" 
         type="button"
+        data-dropdown="mixDropdown"
         class="w-full text-left bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-indigo-500 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-4 py-2.5 inline-flex items-center justify-between border border-gray-400 dark:border-gray-600"
       >
         <span class="text-gray-900 dark:text-gray-100">Select Ingredients</span>
@@ -32,7 +33,10 @@ const { title } = Astro.props;
         </svg>
       </button>
 
-      <div id="mixDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-full mt-2 dark:bg-gray-700 dark:divide-gray-600">
+      <div 
+        id="mixDropdown"
+        class="dropdown-content hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-full mt-2 dark:bg-gray-700 dark:divide-gray-600"
+      >
         <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="mixDropdownButton">
           {INGREDIENTS.map(ingredient => (
             <li>

@@ -1,0 +1,79 @@
+---
+import GardenBedIcon from './icons/GardenBedIcon.astro';
+import GardenPotIcon from './icons/GardenPotIcon.astro';
+import SeedStartingIcon from './icons/SeedStartingIcon.astro';
+
+// Get current path for active state
+const currentPath = Astro.url.pathname;
+
+const menuItems = [
+  {
+    name: 'Garden Beds',
+    href: '/',
+    icon: GardenBedIcon
+  },
+  {
+    name: 'Garden Pots',
+    href: '/coming-soon',
+    icon: GardenPotIcon
+  },
+  {
+    name: 'Seed Starting',
+    href: '/coming-soon',
+    icon: SeedStartingIcon
+  }
+];
+---
+
+<div class="relative">
+  <button
+    id="navDropdownButton"
+    type="button"
+    class="group inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-indigo-600"
+    aria-controls="nav-dropdown"
+    aria-expanded="false"
+  >
+    <span class="sr-only">Open navigation menu</span>
+    <div class="relative w-5 h-4">
+      <span class="absolute top-0 left-0 w-5 h-0.5 bg-current rounded-full transition-all duration-200 ease-in-out group-[.open]:-rotate-45 group-[.open]:translate-y-[7px]"></span>
+      <span class="absolute top-[7px] left-0 w-5 h-0.5 bg-current rounded-full transition-all duration-200 ease-in-out group-[.open]:opacity-0"></span>
+      <span class="absolute bottom-0 left-0 w-5 h-0.5 bg-current rounded-full transition-all duration-200 ease-in-out group-[.open]:rotate-45 group-[.open]:-translate-y-[7px]"></span>
+    </div>
+  </button>
+
+  <div id="navDropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+    <div class="py-1">
+      {menuItems.map(({ name, href, icon: Icon }) => {
+        const isActive = currentPath === href;
+        return (
+          <a
+            href={href}
+            class:list={[
+              "flex items-center px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white",
+              {
+                "text-indigo-600 dark:text-indigo-400": isActive,
+                "text-gray-700 dark:text-gray-200": !isActive
+              }
+            ]}
+          >
+            <span class:list={[
+              "w-5 h-5 mr-3",
+              {
+                "text-indigo-600 dark:text-indigo-400": isActive,
+                "text-gray-400 dark:text-gray-500": !isActive
+              }
+            ]}>
+              <Icon />
+            </span>
+            {name}
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initializeNavDropdown } from '../utils/navDropdown.js';
+  document.addEventListener('DOMContentLoaded', initializeNavDropdown);
+</script>

@@ -23,6 +23,8 @@ export interface CalcPanelConfig {
   isHidden?: boolean;
   isComingSoon?: boolean;
   comingSoonMessage?: string;
+  component?: 'DimensionsCard' | 'PotSizeSelector';
+  components?: string[];
 }
 
 // Core ingredients configuration
@@ -156,31 +158,6 @@ export const VOLUME_CONVERSIONS = {
   CUBIC_FEET_TO_YARDS: 27,
 };
 
-export const CALCULATOR_PANELS: CalcPanelConfig[] = [
-  {
-    id: "garden-beds",
-    title: "Garden Bed",
-    formId: "calculatorForm",
-    isHidden: false,
-    isComingSoon: false
-  },
-  {
-    id: "garden-pots",
-    title: "Garden Pots",
-    formId: "gardenPotsForm",
-    isHidden: true,
-    isComingSoon: true, 
-    comingSoonMessage: "Garden Pots calculator coming soon!"
-  },
-  {
-    id: "seed-starting",
-    title: "Seed Tray",
-    formId: "seedStartingForm",
-    isHidden: true,
-    isComingSoon: true,
-    comingSoonMessage: "Seed Starting calculator is under development."
-  }
-];
 
 export const SITE_TITLE = "Garden Soil Calculator";
 export const SITE_DESCRIPTION = "Calculate how much soil you need";
@@ -200,12 +177,6 @@ export const BUTTON_STYLES = {
 
 // Define type for variant keys
 export type ButtonVariant = keyof typeof BUTTON_STYLES.variants;
-
-export const TAB_STYLES = {
-  base: "relative flex-1 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 px-3 py-1.5 rounded-md",
-  active: "bg-indigo-800 text-white hover:bg-indigo-700",
-  inactive: "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-};
 
 export const CARD_STYLES = {
   default: "bg-white/80 dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-400 dark:border-gray-700"
