@@ -1,7 +1,6 @@
 ---
 import Card from './Card.astro';
 import Button from './Button.astro';
-import MixBadges from './MixBadges.astro';
 import { INGREDIENTS } from '../consts';
 
 interface Props {
@@ -12,11 +11,8 @@ const { title } = Astro.props;
 ---
 
 <Card>
-  <div class="flex justify-between items-start mb-4">
+  <div class="mb-4">
     <h2 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-200">{title}</h2>
-    <div class="flex-1 ml-4">
-      <MixBadges />
-    </div>
   </div>
   
   <div class="space-y-2 sm:space-y-4">
@@ -37,28 +33,38 @@ const { title } = Astro.props;
         id="mixDropdown"
         class="dropdown-content hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-full mt-2 dark:bg-gray-700 dark:divide-gray-600"
       >
-        <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="mixDropdownButton">
-          {INGREDIENTS.map(ingredient => (
-            <li>
-              <div class="flex p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600">
-                <label class="inline-flex items-center w-full cursor-pointer">
-                  <input
-                    type="checkbox"
-                    id={ingredient.id}
-                    name="ingredients[]"
-                    value={ingredient.id}
-                    checked={ingredient.defaultChecked}
-                    class="sr-only peer"
-                  />
-                  <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 dark:peer-focus:ring-emerald-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-emerald-400"></div>
-                  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-100">
-                    {ingredient.name}
-                  </span>
-                </label>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div class="p-3">
+          <ul class="space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="mixDropdownButton">
+            {INGREDIENTS.map(ingredient => (
+              <li>
+                <div class="flex p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <label class="inline-flex items-center justify-between w-full cursor-pointer">
+                    <div class="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id={ingredient.id}
+                        name="ingredients[]"
+                        value={ingredient.id}
+                        checked={ingredient.defaultChecked}
+                        class="sr-only peer"
+                      />
+                      <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 dark:peer-focus:ring-emerald-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-emerald-400"></div>
+                      <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {ingredient.name}
+                      </span>
+                    </div>
+                    <div 
+                      id={`badge-${ingredient.id}`}
+                      class={`opacity-0 peer-checked:opacity-100 transition-opacity duration-200 ${ingredient.bgClass} ${ingredient.textClass} ${ingredient.borderClass} px-4 py-0.5 rounded-full text-xs font-medium`}
+                    >
+                      <span class="badge-percentage">0%</span>
+                    </div>
+                  </label>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
 

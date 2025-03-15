@@ -27,13 +27,54 @@ export interface CalcPanelConfig {
   components?: string[];
 }
 
+type BadgeConfig = {
+  id: string;
+  name: string;
+  shortName: string;
+  bgClass: string;
+  textClass: string;
+  borderClass: string;
+};
+
 // Core ingredients configuration
 // Defines the available ingredients and their default states
-export const INGREDIENTS: Ingredient[] = [
-  { id: 'coco', name: 'Coco Coir', defaultChecked: false },
-  { id: 'perlite', name: 'Perlite', defaultChecked: false },
-  { id: 'vermiculite', name: 'Vermiculite', defaultChecked: false },
-  { id: 'castings', name: 'Worm Castings', defaultChecked: false }
+export const INGREDIENTS: (Ingredient & BadgeConfig)[] = [
+  { 
+    id: 'coco', 
+    name: 'Coco Coir', 
+    defaultChecked: false,
+    shortName: 'Coco',
+    bgClass: 'bg-amber-100',
+    textClass: 'text-amber-800',
+    borderClass: 'border-amber-200'
+  },
+  { 
+    id: 'perlite', 
+    name: 'Perlite', 
+    defaultChecked: false,
+    shortName: 'Perlite',
+    bgClass: 'bg-blue-100',
+    textClass: 'text-blue-800',
+    borderClass: 'border-blue-200'
+  },
+  { 
+    id: 'vermiculite', 
+    name: 'Vermiculite', 
+    defaultChecked: false,
+    shortName: 'Verm',
+    bgClass: 'bg-yellow-500',
+    borderClass: 'border-yellow-400',
+    textClass: 'text-white'
+  },
+  { 
+    id: 'castings', 
+    name: 'Castings', 
+    defaultChecked: false,
+    shortName: 'Cast',
+    bgClass: 'bg-stone-800',
+    borderClass: 'border-stone-700',
+    textClass: 'text-white'
+  }
 ];
 
 // Mix ratio configurations

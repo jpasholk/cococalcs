@@ -22,20 +22,14 @@ export function updateBadges() {
   document.querySelectorAll('[id^="badge-"]').forEach(badge => {
     const ingredientId = badge.id.replace('badge-', '');
     const percentageSpan = badge.querySelector('.badge-percentage');
-    const nameSpans = badge.querySelectorAll('.badge-name');
     
     if (currentRatios[ingredientId]) {
-      badge.classList.remove('invisible');
-      
-      if (ingredientId === 'coco') {
-        nameSpans.forEach(span => {
-          span.textContent = cocoChecked ? 'Coco' : 'Alt. Media';
-        });
-      }
-      
-      percentageSpan.textContent = ` ${currentRatios[ingredientId]}%`;
+      badge.classList.remove('opacity-0');
+      badge.classList.add('opacity-100');
+      percentageSpan.textContent = `${currentRatios[ingredientId]}%`;
     } else {
-      badge.classList.add('invisible');
+      badge.classList.remove('opacity-100');
+      badge.classList.add('opacity-0');
       percentageSpan.textContent = '';
     }
   });
@@ -50,17 +44,6 @@ function getEqualRatios(ingredients) {
 }
 
 export function initializeBadges() {
-  const mixBadgesContainer = document.getElementById('mixBadges');
-  if (!mixBadgesContainer) return;
-
-  // Make container visible
-  mixBadgesContainer.classList.remove('opacity-0');
-  
-  // Initialize all badges as invisible
-  document.querySelectorAll('[id^="badge-"]').forEach(badge => {
-    badge.classList.add('invisible');
-  });
-  
   // Add change event listeners
   document.querySelectorAll('input[name="ingredients[]"]').forEach(checkbox => {
     checkbox.addEventListener('change', () => {
