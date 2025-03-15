@@ -235,7 +235,10 @@ function displayResults(volume, mix) {
     ingredientsList.appendChild(li);
   });
 
-  resultsDiv.classList.remove('hidden');
+  if (resultsDiv.classList.contains('hidden')) {
+    resultsDiv.classList.remove('hidden');
+  }
+
   mediaNote.classList.toggle('hidden', cocoChecked);
 }
 
@@ -256,3 +259,36 @@ function initializeMixDropdown() {
     }
   });
 }
+
+function setupResultsAnimation() {
+  const results = document.getElementById('results');
+  if (!results) return;
+  
+  results.classList.add(
+    'animate-[fadeIn_0.3s_ease-in-out]',
+    'transition-all',
+    'opacity-0',
+    'transform',
+    'translate-y-4'
+  );
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.target.classList.contains('hidden')) {
+        results.classList.add('opacity-0', 'translate-y-4');
+      } else {
+        setTimeout(() => {
+          results.classList.remove('opacity-0', 'translate-y-4');
+        }, 50);
+      }
+    });
+  });
+
+  observer.observe(results, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+}
+
+// Initialize animations
+setupResultsAnimation();
