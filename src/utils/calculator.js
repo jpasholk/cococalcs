@@ -1,10 +1,10 @@
 import { initializeBadges } from './mixBadges.js';
-import { RATIOS, ALTERNATIVE_MEDIA, VOLUME_CONVERSIONS } from '../consts';
+import { RATIOS, ALTERNATIVE_MEDIA, VOLUME_CONVERSIONS, POT_SIZES } from '../consts';
 
 export function initializeCalculator() {
   const calculateButton = document.getElementById('calculateButton');
   
-  // Initialize dropdown
+  // Initialize dropdowns
   initializeMixDropdown();
   
   // Initialize badges
@@ -28,18 +28,39 @@ function handleCalculate() {
     return;
   }
 
-  const lengthFeet = parseFloat(document.getElementById('length').value);
-  const widthFeet = parseFloat(document.getElementById('width').value);
-  const heightInches = parseFloat(document.getElementById('height').value);
-
-  if (isNaN(lengthFeet) || isNaN(widthFeet) || isNaN(heightInches)) {
-    alert('Please enter all dimensions');
-    return;
+  // Check if we're on the pots page and verify pot size is selected
+  const isPots = document.querySelector('input[name="potSize"]') !== null;
+  if (isPots) {
+    const selectedPot = document.querySelector('input[name="potSize"]:checked');
+    if (!selectedPot) {
+      alert('Please select a pot size');
+      return;
+    }
   }
 
-  const totalVolume = lengthFeet * widthFeet * (heightInches / 12);
+  // Continue with volume calculations
+  const potSizeInput = document.querySelector('input[name="potSize"]:checked');
+  const potQuantityInput = document.getElementById('potQuantity');
+  let totalVolume;
+  
+  if (potSizeInput && potQuantityInput) {
+    const selectedPot = POT_SIZES.find(pot => pot.id === potSizeInput.value);
+    const quantity = parseInt(potQuantityInput.value) || 1;
+    totalVolume = selectedPot.volume * quantity;
+  } else {
+    const lengthFeet = parseFloat(document.getElementById('length').value);
+    const widthFeet = parseFloat(document.getElementById('width').value);
+    const heightInches = parseFloat(document.getElementById('height').value);
 
-  // Simplify the logic for mix calculation
+    if (isNaN(lengthFeet) || isNaN(widthFeet) || isNaN(heightInches)) {
+      alert('Please enter all dimensions');
+      return;
+    }
+
+    totalVolume = lengthFeet * widthFeet * (heightInches / 12);
+  }
+
+  // Handle coco requirement
   if (!hasCoco) {
     showWarningModal().then(shouldContinue => {
       if (shouldContinue) {
@@ -169,10 +190,19 @@ function displayResults(volume, mix) {
   const mediaNote = document.getElementById('mediaNote');
   const cocoChecked = document.getElementById('coco').checked;
 
-  document.getElementById('cubic-feet').textContent = `${volume.toFixed(1)} cubic feet`;
-  document.getElementById('cubic-yards').textContent = 
-    `${(volume / VOLUME_CONVERSIONS.CUBIC_FEET_TO_YARDS).toFixed(2)} cubic yards`;
+  // Check if we're on the pots page
+  const isPots = document.querySelector('input[name="potSize"]') !== null;
+
+  // Update volume display based on page type
+  document.getElementById('cubic-feet').textContent = `${volume.toFixed(2)} cubic feet`;
   
+  const secondaryVolume = document.getElementById('cubic-yards');
+  if (isPots) {
+    secondaryVolume.textContent = `${(volume * VOLUME_CONVERSIONS.CUBIC_FEET_TO_GALLONS).toFixed(2)} gallons`;
+  } else {
+    secondaryVolume.textContent = `${(volume / VOLUME_CONVERSIONS.CUBIC_FEET_TO_YARDS).toFixed(2)} cubic yards`;
+  }
+
   const items = Object.entries(mix)
     .map(([ingredient, ratio]) => {
       const volume_ft = volume * ratio;

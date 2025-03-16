@@ -3,10 +3,20 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Calculator from './Calculator.astro';
 import { SITE_TITLE } from '../consts';
+
+interface Props {
+  page?: 'beds' | 'pots';
+}
+
+const { page = 'beds' } = Astro.props;
 ---
 
 <div class="max-w-2xl mx-auto p-3 sm:p-6">
   <Header title={SITE_TITLE} />
-  <Calculator />
+  <main class="flex-1">
+    <div class="max-w-2xl mx-auto">
+      <Calculator page={page} />
+    </div>
+  </main>
   <Footer />
 </div>

@@ -1,15 +1,25 @@
 ---
 import Warning from './Warning.astro';
 import DimensionsCard from './DimensionsCard.astro';
+import PotSelection from './PotSelection.astro';
 import MixSelection from './MixSelection.astro';
 import Results from './Results.astro';
+
+interface Props {
+  page?: 'beds' | 'pots';
+}
+
+const { page = 'beds' } = Astro.props;
 ---
 
 <div class="space-y-2 sm:space-y-6">
   <Warning />
   
-  <form id="gardenBedsForm" class="space-y-6">
-    <DimensionsCard title="Garden Bed Dimensions" />
+  <form id={`${page}Form`} class="space-y-6">
+    {page === 'beds' ? 
+      <DimensionsCard title="Garden Bed Dimensions" /> :
+      <PotSelection title="Garden Pot Selection" />
+    }
     <MixSelection title="Soil Mix" />
     <Results />
   </form>

@@ -199,6 +199,51 @@ export const VOLUME_CONVERSIONS = {
   CUBIC_FEET_TO_YARDS: 27,
 };
 
+export type PotSize = {
+  id: string;
+  name: string;
+  volume: number;  // in cubic feet
+  shortName: string;
+};
+
+export const POT_SIZES: PotSize[] = [
+  { 
+    id: '1qt',
+    name: '1 Quart',
+    shortName: '1 QT',
+    volume: 0.0334 // ~0.03337 cubic feet
+  },
+  {
+    id: '2.5qt',
+    name: '2.5 Quart',
+    shortName: '2.5 QT',
+    volume: 0.0835 // ~0.08343 cubic feet
+  },
+  {
+    id: '1gal',
+    name: '1 Gallon',
+    shortName: '1 GAL',
+    volume: 0.133714 // 1 gallon = 0.133714 cubic feet
+  },
+  {
+    id: '2gal',
+    name: '2 Gallon',
+    shortName: '2 GAL',
+    volume: 0.267428 // 2 gallons = 0.267428 cubic feet
+  },
+  {
+    id: '3gal',
+    name: '3 Gallon',
+    shortName: '3 GAL',
+    volume: 0.401142 // 3 gallons = 0.401142 cubic feet
+  },
+  {
+    id: '5gal',
+    name: '5 Gallon',
+    shortName: '5 GAL',
+    volume: 0.66857 // 5 gallons = 0.66857 cubic feet
+  }
+];
 
 export const SITE_TITLE = "Garden Soil Calculator";
 export const SITE_DESCRIPTION = "Calculate how much soil you need";

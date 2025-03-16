@@ -35,32 +35,46 @@ export function setupClipboard() {
 }
 
 function getFormattedText(calculatorType: string): string {
-  // Get dimensions
-  const length = (document.getElementById('length') as HTMLInputElement)?.value || '0';
-  const width = (document.getElementById('width') as HTMLInputElement)?.value || '0';
-  const height = (document.getElementById('height') as HTMLInputElement)?.value || '0';
-
+  const isPots = document.querySelector('input[name="potSize"]') !== null;
   const totalVolume = document.getElementById('cubic-feet')?.textContent;
-  const totalYards = document.getElementById('cubic-yards')?.textContent;
+  const secondaryVolume = document.getElementById('cubic-yards')?.textContent;
   const ingredientsList = document.getElementById('ingredients-list');
   
   let text = `Garden Soil Calculator Results\n`;
   text += `========================\n\n`;
-  text += `For a ${calculatorType} that is ${length} ft by ${width} ft by ${height} in:\n\n`;
+
+  if (isPots) {
+    const potSize = document.querySelector('input[name="potSize"]:checked');
+    const quantity = document.getElementById('potQuantity') as HTMLInputElement;
+    const quantityValue = parseInt(quantity?.value || '0');
+    const selectedPotLabel = potSize?.closest('label')?.textContent?.trim() || '';
+    
+    text += `To Fill [${quantityValue}] ${selectedPotLabel} Garden ${quantityValue === 1 ? 'Pot' : 'Pots'}:\n\n`;
+  } else {
+    const length = (document.getElementById('length') as HTMLInputElement)?.value || '0';
+    const width = (document.getElementById('width') as HTMLInputElement)?.value || '0';
+    const height = (document.getElementById('height') as HTMLInputElement)?.value || '0';
+    
+    text += `For a ${calculatorType} that is ${length} ft by ${width} ft by ${height} in:\n\n`;
+  }
+  
   text += `Volume Needed:\n`;
-  text += `${totalVolume} | ${totalYards}\n\n`;
+  text += `${totalVolume} | ${secondaryVolume}\n\n`;
   text += `Ingredients:\n`;
   
   if (ingredientsList) {
     const ingredients = ingredientsList.querySelectorAll('li');
+
     ingredients.forEach(ingredient => {
-      let ingredientText = ingredient.textContent || '';
-      ingredientText = ingredientText.replace(/\s+/g, ' ').trim();
+      let ingredientText = ingredient.textContent?.trim() || '';
       
-      const match = ingredientText.match(/(\d+%\s+[A-Za-z]+)\s*([\d.]+)\s*cu\s*ft\s*(.+)/);
+      // Fix spacing in ingredient text
+      const match = ingredientText.match(/(\d+%\s+[A-Za-z\s]+)(\d+\.\d+\s+cu\s+ft)(.+)/);
       if (match) {
-        const [, namePercent, cuFt, altMeasure] = match;
-        text += `${namePercent.trim()} - ${cuFt} cu ft | ${altMeasure.trim()}\n`;
+        const [, percentage, cubicFeet, altMeasure] = match;
+        text += `${percentage.trim()} - ${cubicFeet.trim()} | ${altMeasure.trim()}\n`;
+      } else {
+        text += `${ingredientText}\n`;
       }
     });
   }
