@@ -55,7 +55,7 @@ const { title } = Astro.props;
                     </div>
                     <div 
                       id={`badge-${ingredient.id}`}
-                      class={`opacity-0 peer-checked:opacity-100 transition-opacity duration-200 ${ingredient.bgClass} ${ingredient.textClass} ${ingredient.borderClass} px-4 py-0.5 rounded-full text-xs font-medium`}
+                      class={`opacity-0 peer-checked:opacity-100 transition-opacity duration-200 ${ingredient.bgClass} ${ingredient.textClass} ${ingredient.borderClass} px-4 py-0.5 rounded-full text-xs font-medium min-w-[4rem] text-center`}
                     >
                       <span class="badge-percentage">0%</span>
                     </div>
