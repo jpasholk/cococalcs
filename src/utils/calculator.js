@@ -2,7 +2,14 @@ import { initializeBadges } from './mixBadges.js';
 import { RATIOS, ALTERNATIVE_MEDIA, VOLUME_CONVERSIONS, POT_SIZES } from '../consts';
 
 export function initializeCalculator() {
+  // Store cleanup functions
+  let cleanup = [];
+
   function init() {
+    // Cleanup previous initializations
+    cleanup.forEach(fn => fn());
+    cleanup = [];
+
     // Initialize mix dropdown
     initializeMixDropdown();
     
@@ -10,7 +17,8 @@ export function initializeCalculator() {
     const potButton = document.getElementById('potSizeButton');
     const potDropdown = document.getElementById('potSizeDropdown');
     if (potButton && potDropdown) {
-      initializePotDropdown(potButton, potDropdown);
+      const cleanupPot = initializePotDropdown(potButton, potDropdown);
+      if (cleanupPot) cleanup.push(cleanupPot);
     }
     
     initializeBadges();
@@ -27,8 +35,8 @@ export function initializeCalculator() {
   // Initialize on first load
   init();
   
-  // Re-initialize after client-side navigation
-  document.addEventListener('astro:after-swap', init);
+  // Re-initialize after page load complete
+  document.addEventListener('astro:page-load', init);
 }
 
 function handleCalculate() {
@@ -285,26 +293,34 @@ function displayResults(volume, mix) {
 }
 
 function initializeMixDropdown() {
-  const dropdownButton = document.getElementById('mixDropdownButton');
-  const dropdown = document.getElementById('mixDropdown');
+  function init() {
+    const dropdownButton = document.getElementById('mixDropdownButton');
+    const dropdown = document.getElementById('mixDropdown');
 
-  if (!dropdownButton || !dropdown) return;
+    if (!dropdownButton || !dropdown) return;
 
-  // Clear existing event listeners
-  const newButton = dropdownButton.cloneNode(true);
-  dropdownButton.parentNode.replaceChild(newButton, dropdownButton);
+    // Clear existing event listeners
+    const newButton = dropdownButton.cloneNode(true);
+    dropdownButton.parentNode.replaceChild(newButton, dropdownButton);
 
-  newButton.addEventListener('click', (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle('hidden');
-  });
+    newButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle('hidden');
+    });
 
-  // Handle clicking outside
-  document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target) && !newButton.contains(e.target)) {
-      dropdown.classList.add('hidden');
-    }
-  });
+    // Handle clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target) && !newButton.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+  }
+
+  // Initialize on first load
+  init();
+  
+  // Re-initialize after page load complete
+  document.addEventListener('astro:page-load', init);
 }
 
 function initializePotDropdown(button, dropdown) {
@@ -364,6 +380,11 @@ function setupResultsAnimation() {
       'translate-y-4'
     );
 
+    // Clean up any existing observer
+    if (window.resultsObserver) {
+      window.resultsObserver.disconnect();
+    }
+
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.target.classList.contains('hidden')) {
@@ -380,13 +401,16 @@ function setupResultsAnimation() {
       attributes: true,
       attributeFilter: ['class']
     });
+
+    // Store observer reference for cleanup
+    window.resultsObserver = observer;
   }
 
   // Initialize on first load
   init();
   
-  // Re-initialize after client-side navigation
-  document.addEventListener('astro:after-swap', init);
+  // Re-initialize after page load complete
+  document.addEventListener('astro:page-load', init);
 }
 
 // Initialize animations

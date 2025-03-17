@@ -38,10 +38,10 @@ export function setupPotDropdown() {
   }
 
   // Initialize on first load
-  document.addEventListener('DOMContentLoaded', init);
+  init();
   
-  // Re-initialize after client-side navigation
-  document.addEventListener('astro:after-swap', init);
+  // Re-initialize after page load complete
+  document.addEventListener('astro:page-load', init);
   
   // Initialize immediately in case page is already loaded
   init();

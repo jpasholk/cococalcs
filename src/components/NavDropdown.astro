@@ -40,11 +40,15 @@ const menuItems = [
       <span class="absolute bottom-0 left-0 w-5 h-0.5 bg-current rounded-full transition-all duration-200 ease-in-out group-[.open]:rotate-45 group-[.open]:-translate-y-[7px]"></span>
     </div>
   </button>
-
   <div id="navDropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
     <div class="py-1">
       {menuItems.map(({ name, href, icon: Icon }) => {
-        const isActive = currentPath === href;
+        // Improved active state detection for Safari
+        const isActive = 
+          currentPath === href || 
+          (href === '/' && currentPath === '') ||
+          (currentPath.startsWith(href) && href !== '/');
+
         return (
           <a
             href={href}
@@ -55,6 +59,7 @@ const menuItems = [
                 "text-gray-700 dark:text-gray-200": !isActive
               }
             ]}
+            aria-current={isActive ? 'page' : undefined}
           >
             <span class:list={[
               "w-5 h-5 mr-3",
@@ -75,14 +80,5 @@ const menuItems = [
 
 <script>
   import { initializeNavDropdown } from '../utils/navDropdown.js';
-  document.addEventListener('DOMContentLoaded', initializeNavDropdown);
-  document.addEventListener("astro:after-swap", () => {
-    const navDropdown = document.getElementById("navDropdown");
-    const navDropdownButton = document.getElementById("navDropdownButton");
-    if (navDropdown && navDropdownButton) {
-      navDropdownButton.addEventListener("click", () => {
-        navDropdown.classList.toggle("hidden");
-      });
-    }
-  });
+  initializeNavDropdown();
 </script>

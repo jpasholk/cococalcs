@@ -1,37 +1,49 @@
 export function setupClipboard() {
-  const copyButton = document.getElementById('copyResults');
-  const tooltip = document.getElementById('tooltip-copied');
+  function init() {
+    const copyButton = document.getElementById('copyResults');
+    const tooltip = document.getElementById('tooltip-copied');
+    
+    if (!copyButton || !tooltip) return;
+
+    // Remove existing listeners
+    const newButton = copyButton.cloneNode(true) as HTMLButtonElement;
+    copyButton.parentNode?.replaceChild(newButton, copyButton);
+
+    newButton.addEventListener('click', async (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Get active calculator type and make it singular
+      const activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
+      let calculatorType = activeTab?.textContent?.trim().replace('Beds', 'Bed') || "Garden Bed";
+
+      const text = getFormattedText(calculatorType);
+
+      try {
+        await navigator.clipboard.writeText(text);
+        
+        // Show tooltip and update button style to indigo theme
+        tooltip.classList.remove('hidden');
+        newButton.classList.remove('text-gray-500', 'hover:text-gray-700', 'dark:text-gray-400', 'dark:hover:text-gray-200');
+        newButton.classList.add('text-indigo-700', 'dark:text-indigo-400');
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+          tooltip.classList.add('hidden');
+          newButton.classList.remove('text-indigo-700', 'dark:text-indigo-400');
+          newButton.classList.add('text-gray-500', 'hover:text-gray-700', 'dark:text-gray-400', 'dark:hover:text-gray-200');
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+    });
+  }
+
+  // Initialize on first load
+  init();
   
-  if (!copyButton || !tooltip) return;
-
-  copyButton.addEventListener('click', async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Get active calculator type and make it singular
-    const activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
-    let calculatorType = activeTab?.textContent?.trim().replace('Beds', 'Bed') || "Garden Bed";
-
-    const text = getFormattedText(calculatorType);
-
-    try {
-      await navigator.clipboard.writeText(text);
-      
-      // Show tooltip and update button style to indigo theme
-      tooltip.classList.remove('hidden');
-      copyButton.classList.remove('text-gray-500', 'hover:text-gray-700', 'dark:text-gray-400', 'dark:hover:text-gray-200');
-      copyButton.classList.add('text-indigo-700', 'dark:text-indigo-400');
-      
-      // Reset after 2 seconds
-      setTimeout(() => {
-        tooltip.classList.add('hidden');
-        copyButton.classList.remove('text-indigo-700', 'dark:text-indigo-400');
-        copyButton.classList.add('text-gray-500', 'hover:text-gray-700', 'dark:text-gray-400', 'dark:hover:text-gray-200');
-      }, 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  });
+  // Re-initialize after page load complete
+  document.addEventListener('astro:page-load', init);
 }
 
 function getFormattedText(calculatorType: string): string {
