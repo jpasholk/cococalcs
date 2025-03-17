@@ -20,7 +20,10 @@ import { MEDIA_NOTE } from '../consts';
           title="Copy results to clipboard"
         >
           <ClipboardIcon class="w-6 h-6" />
-          <div id="tooltip-copied" class="hidden absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-900 rounded whitespace-nowrap">
+          <div 
+            id="tooltip-copied" 
+            class="hidden absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-900 rounded whitespace-nowrap z-50 pointer-events-none"
+          >
             Results copied!
           </div>
         </button>
@@ -72,5 +75,15 @@ import { MEDIA_NOTE } from '../consts';
 
 <script>
   import { setupClipboard } from '../utils/clipboard';
-  setupClipboard();
+  
+  function init() {
+    console.log('Results component script running');
+    setupClipboard();
+  }
+
+  // Initialize on first load
+  init();
+  
+  // Re-initialize after page load complete
+  document.addEventListener('astro:page-load', init);
 </script>

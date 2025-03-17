@@ -1,23 +1,32 @@
 export function setupClipboard() {
   function init() {
+    console.log('Setting up clipboard functionality');
     const copyButton = document.getElementById('copyResults');
-    const tooltip = document.getElementById('tooltip-copied');
     
-    if (!copyButton || !tooltip) return;
+    if (!copyButton) {
+      console.warn('Copy button not found');
+      return;
+    }
 
     // Remove existing listeners
     const newButton = copyButton.cloneNode(true) as HTMLButtonElement;
     copyButton.parentNode?.replaceChild(newButton, copyButton);
 
+    // Get tooltip from the cloned button
+    const tooltip = newButton.querySelector('#tooltip-copied');
+    
+    if (!tooltip) {
+      console.warn('Tooltip not found in cloned button');
+      return;
+    }
+
+    // Add click handler
     newButton.addEventListener('click', async (e: MouseEvent) => {
+      console.log('Copy button clicked');
       e.preventDefault();
       e.stopPropagation();
 
-      // Get active calculator type and make it singular
-      const activeTab = document.querySelector('[role="tab"][aria-selected="true"]');
-      let calculatorType = activeTab?.textContent?.trim().replace('Beds', 'Bed') || "Garden Bed";
-
-      const text = getFormattedText(calculatorType);
+      const text = getFormattedText();
 
       try {
         await navigator.clipboard.writeText(text);
@@ -32,7 +41,7 @@ export function setupClipboard() {
           tooltip.classList.add('hidden');
           newButton.classList.remove('text-indigo-700', 'dark:text-indigo-400');
           newButton.classList.add('text-gray-500', 'hover:text-gray-700', 'dark:text-gray-400', 'dark:hover:text-gray-200');
-        }, 2000);
+        }, 1800);
       } catch (err) {
         console.error('Failed to copy text: ', err);
       }
@@ -46,7 +55,7 @@ export function setupClipboard() {
   document.addEventListener('astro:page-load', init);
 }
 
-function getFormattedText(calculatorType: string): string {
+function getFormattedText(): string {
   const isPots = document.querySelector('input[name="potSize"]') !== null;
   const totalVolume = document.getElementById('cubic-feet')?.textContent;
   const secondaryVolume = document.getElementById('cubic-yards')?.textContent;
@@ -67,7 +76,7 @@ function getFormattedText(calculatorType: string): string {
     const width = (document.getElementById('width') as HTMLInputElement)?.value || '0';
     const height = (document.getElementById('height') as HTMLInputElement)?.value || '0';
     
-    text += `For a ${calculatorType} that is ${length} ft by ${width} ft by ${height} in:\n\n`;
+    text += `For a Garden Bed that is ${length} ft by ${width} ft by ${height} in:\n\n`;
   }
   
   text += `Volume Needed:\n`;
