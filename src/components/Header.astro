@@ -1,5 +1,6 @@
 ---
 import NavDropdown from './NavDropdown.astro';
+import CocoCalcsIcon from './icons/CocoCalcsIcon.astro';
 
 interface Props {
   title: string;
@@ -15,9 +16,12 @@ const navItems = [
 
 <header class="mb-4">
   <div class="flex justify-between items-start">
-    <div>
-      <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
-      <h2 class="text-sm sm:text-lg md:text-xl text-gray-800 dark:text-gray-300 leading-tight max-w-[100%]">Calculate how much soil you need for your garden</h2>
+    <div class="flex items-center gap-3">
+      <CocoCalcsIcon class="w-10 h-10 text-gray-900 dark:text-gray-100" />
+      <div>
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
+        <h2 class="text-sm sm:text-lg md:text-xl text-gray-800 dark:text-gray-300 leading-tight max-w-[100%]">Calculate how much soil you need for your garden</h2>
+      </div>
     </div>
 
     <NavDropdown items={navItems} />

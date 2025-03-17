@@ -1,40 +1,68 @@
 ---
 import BlueskyLogo from './icons/BlueskyLogo.astro';
 import GithubLogo from './icons/GitHubLogo.astro';
+import CocoCalcsIcon from './icons/CocoCalcsIcon.astro';
 ---
 
-<footer class="mt-8 py-6 border-t bg-bg-transparent dark:bg-transparent border-gray-400 dark:border-gray-700">
-  <div class="max-w-2xl mx-auto px-2">
-    <div class="flex flex-row justify-between items-center">
-      <div class="flex items-center">
-        <p class="text-sm text-gray-900 dark:text-gray-300">
-          Made with <span class="text-red-700 dark:text-red-500">♥</span> by 
-          <a 
-            href="https://jpsholk.com" 
-            class="underline text-gray-900 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-indigo-400"
-            target="_blank" 
-            rel="noopener me"
-          >jpasholk</a>
-        </p>
-      </div>
-      <div class="flex space-x-4">
-        <a 
-          href="https://bsky.app/profile/jpshlk.com" 
-          class="text-gray-900 dark:text-gray-300 hover:text-indigo-700 dark:hover:text-indigo-400"
-          target="_blank"
-          rel="noopener me"
-          aria-label="Bluesky Profile"
-        >
-          <BlueskyLogo />
+<footer class="p-2 bg-transparent">
+  <div class="mx-auto max-w-screen-xl">
+    <div class="md:flex md:justify-between">
+      <div class="mb-6 md:mb-0">
+        <a href="/" class="flex items-center">
+          <CocoCalcsIcon class="w-8 h-8 mr-3" />
+          <h2 class="self-center text-2xl font-semibold text-gray-900 dark:text-white">Garden Soil Calculator</h2>
         </a>
-        <a 
-          href="https://github.com/jpasholk/cococalcs" 
-          class="text-gray-900 dark:text-gray-300 hover:text-indigo-700 dark:hover:text-indigo-400"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub Repository"
-        >
-          <GithubLogo />
+      </div>
+      <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2 h-full justify-end">
+        <div class="h-full flex flex-col">
+          <h2 class="mb-3 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
+          <ul class="text-gray-600 dark:text-gray-400 flex-1 flex flex-col justify-between">
+            <li>
+              <a href="/coming-soon" class="hover:text-indigo-700 dark:hover:text-indigo-400">Coco Coir</a>
+            </li>
+            <li>
+              <a href="/coming-soon" class="hover:text-indigo-700 dark:hover:text-indigo-400">Perlite</a>
+            </li>
+            <li>
+              <a href="/coming-soon" class="hover:text-indigo-700 dark:hover:text-indigo-400">Vermiculite</a>
+            </li>
+            <li>
+              <a href="/coming-soon" class="hover:text-indigo-700 dark:hover:text-indigo-400">Worm Castings</a>
+            </li>
+          </ul>
+        </div>
+        <div class="h-full flex flex-col">
+          <h2 class="mb-3 text-sm font-semibold text-gray-900 uppercase dark:text-white">Calculators</h2>
+          <ul class="text-gray-600 dark:text-gray-400 flex-1 flex flex-col justify-between">
+            <li>
+              <a href="/" class="hover:text-indigo-700 dark:hover:text-indigo-400">Garden Beds</a>
+            </li>
+            <li>
+              <a href="/garden-pots" class="hover:text-indigo-700 dark:hover:text-indigo-400">Garden Pots</a>
+            </li>
+            <li>
+              <a href="/coming-soon" class="hover:text-indigo-700 dark:hover:text-indigo-400">Seed Starting</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <span class="text-sm text-gray-500 dark:text-gray-400">
+          Made with <span class="text-red-700 dark:text-red-500">♥</span> by 
+          <a href="https://jpsholk.com" class="hover:text-indigo-700 dark:hover:text-indigo-400">jpasholk</a>
+        </span>
+      </div>
+      <div class="flex space-x-6">
+        <a href="https://bsky.app/profile/jpshlk.com" class="text-gray-500 hover:text-indigo-700 dark:hover:text-indigo-400">
+          <BlueskyLogo class="w-5 h-5" />
+          <span class="sr-only">Bluesky profile</span>
+        </a>
+        <a href="https://github.com/jpasholk/cococalcs" class="text-gray-500 hover:text-indigo-700 dark:hover:text-indigo-400">
+          <GithubLogo class="w-5 h-5" />
+          <span class="sr-only">GitHub repository</span>
         </a>
       </div>
     </div>
