@@ -265,5 +265,5 @@ export const BUTTON_STYLES = {
 export type ButtonVariant = keyof typeof BUTTON_STYLES.variants;
 
 export const CARD_STYLES = {
-  default: "bg-white/80 dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-400 dark:border-gray-700"
+  default: "bg-white-100 dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-400 dark:border-gray-700"
 };
