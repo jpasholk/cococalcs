@@ -3,9 +3,10 @@ interface Props {
   id: string;
   label: string;
   value: string;
-  unit: string;
+  unit?: string;
   step?: string;
   min?: string;
+  required?: boolean;
 }
 
 const { id, label, value, unit, step = "0.1", min = "0" } = Astro.props;
@@ -13,7 +14,7 @@ const { id, label, value, unit, step = "0.1", min = "0" } = Astro.props;
 
 <div class="dimension-input">
   <label for={id} class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-200">
-    {label} ({unit})
+    {label} {unit && `(${unit})`}
   </label>
   <input
     type="number"
