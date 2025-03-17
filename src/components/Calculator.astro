@@ -28,7 +28,5 @@ const { page = 'beds' } = Astro.props;
 <script>
   import { initializeCalculator } from '../utils/calculator.js';
   
-  document.addEventListener('DOMContentLoaded', () => {
-    initializeCalculator();
-  });
+  document.addEventListener('DOMContentLoaded', initializeCalculator);
 </script>

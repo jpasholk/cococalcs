@@ -74,8 +74,6 @@ const { title } = Astro.props;
 <script>
   import { setupPotDropdown } from '../utils/potDropdown';
   
-  document.addEventListener('DOMContentLoaded', () => {
-    setupPotDropdown();
-  });
+  document.addEventListener('DOMContentLoaded', setupPotDropdown);
 </script>
 

@@ -1,5 +1,6 @@
 ---
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import ClientRouter from 'astro/components/ClientRouter.astro';
 
 interface Props {
     title?: string;
@@ -38,4 +39,5 @@ const { title = SITE_TITLE } = Astro.props;
     <!-- iOS specific -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <ClientRouter />
 </head>

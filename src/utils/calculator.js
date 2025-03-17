@@ -2,21 +2,33 @@ import { initializeBadges } from './mixBadges.js';
 import { RATIOS, ALTERNATIVE_MEDIA, VOLUME_CONVERSIONS, POT_SIZES } from '../consts';
 
 export function initializeCalculator() {
-  const calculateButton = document.getElementById('calculateButton');
-  
-  // Initialize dropdowns
-  initializeMixDropdown();
-  
-  // Initialize badges
-  initializeBadges();
+  function init() {
+    // Initialize mix dropdown
+    initializeMixDropdown();
+    
+    // Initialize pot size dropdown if on pots page
+    const potButton = document.getElementById('potSizeButton');
+    const potDropdown = document.getElementById('potSizeDropdown');
+    if (potButton && potDropdown) {
+      initializePotDropdown(potButton, potDropdown);
+    }
+    
+    initializeBadges();
 
-  // Handle calculate button click
-  if (calculateButton) {
-    calculateButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      handleCalculate();
-    });
+    const calculateButton = document.getElementById('calculateButton');
+    if (calculateButton) {
+      calculateButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleCalculate();
+      });
+    }
   }
+
+  // Initialize on first load
+  init();
+  
+  // Re-initialize after client-side navigation
+  document.addEventListener('astro:after-swap', init);
 }
 
 function handleCalculate() {
@@ -278,46 +290,103 @@ function initializeMixDropdown() {
 
   if (!dropdownButton || !dropdown) return;
 
-  dropdownButton.addEventListener('click', () => {
+  // Clear existing event listeners
+  const newButton = dropdownButton.cloneNode(true);
+  dropdownButton.parentNode.replaceChild(newButton, dropdownButton);
+
+  newButton.addEventListener('click', (e) => {
+    e.stopPropagation();
     dropdown.classList.toggle('hidden');
   });
 
-  // Close dropdown when clicking outside
+  // Handle clicking outside
   document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target) && !dropdownButton.contains(e.target)) {
+    if (!dropdown.contains(e.target) && !newButton.contains(e.target)) {
       dropdown.classList.add('hidden');
     }
   });
 }
 
-function setupResultsAnimation() {
-  const results = document.getElementById('results');
-  if (!results) return;
-  
-  results.classList.add(
-    'animate-[fadeIn_0.3s_ease-in-out]',
-    'transition-all',
-    'opacity-0',
-    'transform',
-    'translate-y-4'
-  );
+function initializePotDropdown(button, dropdown) {
+  if (!button || !dropdown) return;
 
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.target.classList.contains('hidden')) {
-        results.classList.add('opacity-0', 'translate-y-4');
-      } else {
-        setTimeout(() => {
-          results.classList.remove('opacity-0', 'translate-y-4');
-        }, 50);
+  // Remove any existing click listeners from document
+  document.removeEventListener('click', handleOutsideClick);
+  
+  // Clear existing event listeners
+  const newButton = button.cloneNode(true);
+  button.parentNode.replaceChild(newButton, button);
+
+  // Named function for outside clicks to allow removal
+  function handleOutsideClick(e) {
+    if (!dropdown.contains(e.target) && !newButton.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  }
+
+  newButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle('hidden');
+  });
+
+  // Add new outside click handler
+  document.addEventListener('click', handleOutsideClick);
+
+  // Handle radio selection
+  const radioInputs = dropdown.querySelectorAll('input[type="radio"]');
+  radioInputs.forEach(input => {
+    input.addEventListener('change', (e) => {
+      const selectedLabel = e.target.closest('label').textContent.trim();
+      const buttonText = newButton.querySelector('span');
+      if (buttonText) {
+        buttonText.textContent = selectedLabel;
       }
+      dropdown.classList.add('hidden');
     });
   });
 
-  observer.observe(results, {
-    attributes: true,
-    attributeFilter: ['class']
-  });
+  // Clean up function for removing listeners
+  return () => {
+    document.removeEventListener('click', handleOutsideClick);
+  };
+}
+
+function setupResultsAnimation() {
+  function init() {
+    const results = document.getElementById('results');
+    if (!results) return;
+    
+    results.classList.add(
+      'animate-[fadeIn_0.3s_ease-in-out]',
+      'transition-all',
+      'opacity-0',
+      'transform',
+      'translate-y-4'
+    );
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.classList.contains('hidden')) {
+          results.classList.add('opacity-0', 'translate-y-4');
+        } else {
+          setTimeout(() => {
+            results.classList.remove('opacity-0', 'translate-y-4');
+          }, 50);
+        }
+      });
+    });
+
+    observer.observe(results, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+
+  // Initialize on first load
+  init();
+  
+  // Re-initialize after client-side navigation
+  document.addEventListener('astro:after-swap', init);
 }
 
 // Initialize animations

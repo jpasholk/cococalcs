@@ -76,4 +76,13 @@ const menuItems = [
 <script>
   import { initializeNavDropdown } from '../utils/navDropdown.js';
   document.addEventListener('DOMContentLoaded', initializeNavDropdown);
+  document.addEventListener("astro:after-swap", () => {
+    const navDropdown = document.getElementById("navDropdown");
+    const navDropdownButton = document.getElementById("navDropdownButton");
+    if (navDropdown && navDropdownButton) {
+      navDropdownButton.addEventListener("click", () => {
+        navDropdown.classList.toggle("hidden");
+      });
+    }
+  });
 </script>
