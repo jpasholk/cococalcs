@@ -13,10 +13,10 @@ interface Props {
 const { page = 'beds' } = Astro.props;
 ---
 
-<div transition:animate={fade({ duration: ".5s" })}  class="space-y-2 sm:space-y-6">
+<div transition:animate={fade({ duration: ".5s" })}  class="space-y-2 sm:space-y-4">
   <Warning />
   
-  <form id={`${page}Form`} class="space-y-6">
+  <form id={`${page}Form`} class="space-y-4">
     {page === 'beds' ? 
       <DimensionsCard title="Garden Bed Dimensions" /> :
       <PotSelection title="Garden Pot Selection" />
