@@ -18,8 +18,10 @@ const {
 const siteUrl = 'https://cococalcs.jpshlk.com';
 const currentPath = Astro.url.pathname;
 const fullUrl = `${siteUrl}${currentPath}`;
-const ogImageUrl = typeof image === 'object' && image.src 
-    ? `${siteUrl}${image.src}`
+
+// Use the full optimized image URL for OG image
+const ogImageUrl = typeof image === 'object' 
+    ? `${siteUrl}/_astro/${image.src.split('/').pop()}`
     : `${siteUrl}${image}`;
 ---
 
