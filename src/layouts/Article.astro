@@ -1,0 +1,31 @@
+---
+import Head from '../components/Head.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import "../styles/global.css";
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+    title?: string;
+}
+
+const { title = SITE_TITLE } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <Head title={title} />
+    <body class="min-h-screen bg-white-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        <div class="max-w-2xl mx-auto p-3 sm:p-6">
+            <Header title={title} />
+            <main class="flex-1">
+                <div class="max-w-2xl mx-auto">
+                    <article class="prose prose-lg dark:prose-invert max-w-none mb-8">
+                        <slot />
+                    </article>
+                </div>
+            </main>
+            <Footer />
+        </div>
+    </body>
+</html>
