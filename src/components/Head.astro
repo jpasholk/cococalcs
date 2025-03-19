@@ -5,7 +5,7 @@ import ClientRouter from 'astro/components/ClientRouter.astro';
 interface Props {
     title?: string;
     description?: string;
-    image?: string;
+    image?: ImageMetadata | string;
 }
 
 const { 
@@ -16,7 +16,8 @@ const {
 
 // Create full URL for OG image
 const siteUrl = 'https://cococalcs.jpshlk.com';
-const ogImage = image.startsWith('http') ? image : new URL(image, siteUrl).toString();
+const ogImage = typeof image === 'object' ? image.src : image;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 ---
 
 <head>
@@ -35,14 +36,14 @@ const ogImage = image.startsWith('http') ? image : new URL(image, siteUrl).toStr
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:url" content="https://cococalcs.jpshlk.com" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="CocoCalcs" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:title" content="CocoCalcs - Garden Bed Soil Calculator" />
     <meta name="twitter:description" content="Calculate the perfect soil mix for your garden bed using coco coir, perlite, vermiculite, and worm castings." />
     
