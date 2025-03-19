@@ -8,12 +8,14 @@ import { SITE_TITLE } from '../consts';
 interface Props {
     frontmatter: {
         title: string;
-        ogImage?: any;
+        image?: {
+            src: string;
+        };
     }
 }
 
 const { frontmatter } = Astro.props;
-const ogImageUrl = frontmatter.ogImage ? frontmatter.ogImage.src : '/og-image.png';
+const ogImageUrl = frontmatter.image ? frontmatter.image.src : '/og-image.png';
 ---
 
 <!doctype html>
