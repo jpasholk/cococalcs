@@ -14,17 +14,20 @@ const {
     image = '/og-image.png'
 } = Astro.props;
 
-// Create full URL for OG image
+// Create full URLs
 const siteUrl = 'https://cococalcs.jpshlk.com';
-const ogImage = typeof image === 'object' ? image.src : image;
-const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+const currentPath = Astro.url.pathname;
+const fullUrl = `${siteUrl}${currentPath}`;
+const ogImageUrl = typeof image === 'object' && image.src 
+    ? `${siteUrl}${image.src}`
+    : `${siteUrl}${image}`;
 ---
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={SITE_DESCRIPTION} />
-    <meta name="theme-color" content="#1185fe" />
+    <meta name="theme-color" content="#121827" />
     
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     
@@ -37,15 +40,15 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:url" content="https://cococalcs.jpshlk.com" />
+    <meta property="og:url" content={fullUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="CocoCalcs" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:title" content="CocoCalcs - Garden Bed Soil Calculator" />
-    <meta name="twitter:description" content="Calculate the perfect soil mix for your garden bed using coco coir, perlite, vermiculite, and worm castings." />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     
     <!-- iOS specific -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
