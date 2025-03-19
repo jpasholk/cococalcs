@@ -5,19 +5,10 @@ import Footer from '../components/Footer.astro';
 import "../styles/global.css";
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-interface Props {
-    frontmatter: {
-        title: string;
-        description?: string;
-        image?: {
-            src: string;
-            alt: string;
-        };
-    }
-}
-
 const { frontmatter } = Astro.props;
-const ogImage = frontmatter.image?.src.replace('..', '');
+
+// Import the image directly in the layout
+const ogImage = await import(frontmatter.image);
 ---
 
 <!doctype html>
@@ -25,7 +16,7 @@ const ogImage = frontmatter.image?.src.replace('..', '');
     <Head 
         title={frontmatter.title} 
         description={frontmatter.description || SITE_DESCRIPTION}
-        image={ogImage} 
+        image={ogImage.default} 
     />
     <body class="min-h-screen bg-white-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <div class="max-w-2xl mx-auto p-3 sm:p-6">

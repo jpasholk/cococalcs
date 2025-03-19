@@ -19,10 +19,13 @@ const siteUrl = 'https://cococalcs.jpshlk.com';
 const currentPath = Astro.url.pathname;
 const fullUrl = `${siteUrl}${currentPath}`;
 
+// Log the image object to see its structure in dev
+console.log('Image object:', image);
+
 // Handle optimized image URLs
-const ogImageUrl = typeof image === 'object' 
-    ? `${siteUrl}${image.src}` // Use the full processed path from Astro
-    : `${siteUrl}${image}`;
+const ogImageUrl = typeof image === 'string' 
+    ? `${siteUrl}${image}`
+    : `${siteUrl}${image?.src}`;
 ---
 
 <head>
