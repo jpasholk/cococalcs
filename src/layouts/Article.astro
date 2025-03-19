@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import "../styles/global.css";
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { fade } from 'astro:transitions';
 
 const { frontmatter } = Astro.props;
 
@@ -18,9 +19,12 @@ const ogImage = Astro.props.ogImage;
         description={frontmatter.description || SITE_DESCRIPTION}
         image={ogImage} 
     />
-    <body class="min-h-screen bg-white-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <body transition:animate={fade({ duration: ".5s" })}  class="min-h-screen bg-white-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <div class="max-w-2xl mx-auto p-3 sm:p-6">
-            <Header title={frontmatter.title} />
+            <Header 
+                title={frontmatter.title} 
+                description={frontmatter.description}
+            />
             <main class="flex-1">
                 <div class="max-w-2xl mx-auto">
                     <article class="prose prose-lg dark:prose-invert max-w-none mb-8">
