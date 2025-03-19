@@ -14,7 +14,9 @@ const {
     image = '/og-image.png'
 } = Astro.props;
 
-const ogImage = image.startsWith('http') ? image : new URL(image, Astro.site);
+// Create full URL for OG image
+const siteUrl = 'https://cococalcs.jpshlk.com';
+const ogImage = image.startsWith('http') ? image : new URL(image, siteUrl).toString();
 ---
 
 <head>
