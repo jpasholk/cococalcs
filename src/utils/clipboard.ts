@@ -1,6 +1,5 @@
 export function setupClipboard() {
   function init() {
-    console.log('Setting up clipboard functionality');
     const copyButton = document.getElementById('copyResults');
     
     if (!copyButton) {
@@ -22,7 +21,6 @@ export function setupClipboard() {
 
     // Add click handler
     newButton.addEventListener('click', async (e: MouseEvent) => {
-      console.log('Copy button clicked');
       e.preventDefault();
       e.stopPropagation();
 

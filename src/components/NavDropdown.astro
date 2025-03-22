@@ -2,11 +2,12 @@
 import GardenBedIcon from './icons/GardenBedIcon.astro';
 import GardenPotIcon from './icons/GardenPotIcon.astro';
 import SeedStartingIcon from './icons/SeedStartingIcon.astro';
+import ResourceIcon from './icons/ResourceIcon.astro';
 
 // Get current path for active state
 const currentPath = Astro.url.pathname;
 
-const menuItems = [
+const calculatorItems = [
   {
     name: 'Garden Beds',
     href: '/',
@@ -21,6 +22,29 @@ const menuItems = [
     name: 'Seed Starting',
     href: '/coming-soon',
     icon: SeedStartingIcon
+  }
+];
+
+const resourceItems = [
+  {
+    name: 'Coco Coir',
+    href: '/coco-coir',
+    icon: ResourceIcon
+  },
+  {
+    name: 'Perlite',
+    href: '/perlite',
+    icon: ResourceIcon
+  },
+  {
+    name: 'Vermiculite',
+    href: '/coming-soon',
+    icon: ResourceIcon
+  },
+  {
+    name: 'Worm Castings',
+    href: '/coming-soon',
+    icon: ResourceIcon
   }
 ];
 ---
@@ -40,15 +64,52 @@ const menuItems = [
       <span class="absolute bottom-0 left-0 w-5 h-0.5 bg-current rounded-full transition-all duration-200 ease-in-out group-[.open]:rotate-45 group-[.open]:-translate-y-[7px]"></span>
     </div>
   </button>
-  <div id="navDropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+  <div 
+    id="navDropdown" 
+    class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-150 ease-in-out transform opacity-0 scale-95"
+  >
     <div class="py-1">
-      {menuItems.map(({ name, href, icon: Icon }) => {
-        // Improved active state detection for Safari
-        const isActive = 
-          currentPath === href || 
-          (href === '/' && currentPath === '') ||
-          (currentPath.startsWith(href) && href !== '/');
-
+      <div class="px-4 py-2">
+        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Calculators</span>
+      </div>
+      {calculatorItems.map(({ name, href, icon: Icon }, index) => {
+        const isActive = currentPath === href || (href === '/' && currentPath === '') || (currentPath.startsWith(href) && href !== '/');
+        const isLastCalculator = index === calculatorItems.length - 1;
+        
+        return (
+          <a
+            href={href}
+            class:list={[
+              "flex items-center px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white",
+              {
+                "text-indigo-600 dark:text-indigo-400": isActive,
+                "text-gray-700 dark:text-gray-200": !isActive,
+                "mb-2": isLastCalculator
+              }
+            ]}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            <span class:list={[
+              "w-5 h-5 mr-3",
+              {
+                "text-indigo-600 dark:text-indigo-400": isActive,
+                "text-gray-400 dark:text-gray-500": !isActive
+              }
+            ]}>
+              <Icon />
+            </span>
+            {name}
+          </a>
+        );
+      })}
+      
+      <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
+      
+      <div class="px-4 py-2">
+        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Resources</span>
+      </div>
+      {resourceItems.map(({ name, href, icon: Icon }) => {
+        const isActive = currentPath === href || (currentPath.startsWith(href) && href !== '/');
         return (
           <a
             href={href}

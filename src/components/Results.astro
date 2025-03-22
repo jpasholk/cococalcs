@@ -76,14 +76,10 @@ import { MEDIA_NOTE } from '../consts';
 <script>
   import { setupClipboard } from '../utils/clipboard';
   
-  function init() {
-    console.log('Results component script running');
+  function initializeResults() {
     setupClipboard();
   }
 
-  // Initialize on first load
-  init();
-  
-  // Re-initialize after page load complete
-  document.addEventListener('astro:page-load', init);
+  initializeResults();
+  document.addEventListener('astro:page-load', initializeResults);
 </script>
