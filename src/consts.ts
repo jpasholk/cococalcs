@@ -267,3 +267,45 @@ export type ButtonVariant = keyof typeof BUTTON_STYLES.variants;
 export const CARD_STYLES = {
   default: "bg-white-100 dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-400 dark:border-gray-700"
 };
+
+export const navigationItems = {
+  calculators: [
+    {
+      name: 'Garden Beds',
+      href: '/',
+      icon: 'GardenBedIcon'
+    },
+    {
+      name: 'Garden Pots',
+      href: '/garden-pots',
+      icon: 'GardenPotIcon'
+    },
+    {
+      name: 'Seed Starting',
+      href: '/coming-soon',
+      icon: 'SeedStartingIcon'
+    }
+  ],
+  resources: [
+    {
+      name: 'Coco Coir',
+      href: '/coco-coir',
+      icon: 'ResourceIcon'
+    },
+    {
+      name: 'Perlite',
+      href: '/perlite',
+      icon: 'ResourceIcon'
+    },
+    {
+      name: 'Vermiculite',
+      href: '/coming-soon',
+      icon: 'ResourceIcon'
+    },
+    {
+      name: 'Worm Castings',
+      href: '/coming-soon',
+      icon: 'ResourceIcon'
+    }
+  ]
+};

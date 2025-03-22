@@ -3,50 +3,28 @@ import GardenBedIcon from './icons/GardenBedIcon.astro';
 import GardenPotIcon from './icons/GardenPotIcon.astro';
 import SeedStartingIcon from './icons/SeedStartingIcon.astro';
 import ResourceIcon from './icons/ResourceIcon.astro';
+import { navigationItems } from '../consts';
 
 // Get current path for active state
 const currentPath = Astro.url.pathname;
 
-const calculatorItems = [
-  {
-    name: 'Garden Beds',
-    href: '/',
-    icon: GardenBedIcon
-  },
-  {
-    name: 'Garden Pots',
-    href: '/garden-pots',
-    icon: GardenPotIcon
-  },
-  {
-    name: 'Seed Starting',
-    href: '/coming-soon',
-    icon: SeedStartingIcon
-  }
-];
+// Map icons to their components
+const iconMap: { [key: string]: any } = {
+  GardenBedIcon,
+  GardenPotIcon,
+  SeedStartingIcon,
+  ResourceIcon
+};
 
-const resourceItems = [
-  {
-    name: 'Coco Coir',
-    href: '/coco-coir',
-    icon: ResourceIcon
-  },
-  {
-    name: 'Perlite',
-    href: '/perlite',
-    icon: ResourceIcon
-  },
-  {
-    name: 'Vermiculite',
-    href: '/coming-soon',
-    icon: ResourceIcon
-  },
-  {
-    name: 'Worm Castings',
-    href: '/coming-soon',
-    icon: ResourceIcon
-  }
-];
+const calculatorItems = navigationItems.calculators.map(item => ({
+  ...item,
+  icon: iconMap[item.icon]
+}));
+
+const resourceItems = navigationItems.resources.map(item => ({
+  ...item,
+  icon: iconMap[item.icon]
+}));
 ---
 
 <div class="relative">
