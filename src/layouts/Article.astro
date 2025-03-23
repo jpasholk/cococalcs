@@ -19,7 +19,7 @@ const ogImage = Astro.props.ogImage;
         description={frontmatter.description || SITE_DESCRIPTION}
         image={ogImage} 
     />
-    <body transition:animate={fade({ duration: ".5s" })}  class="min-h-screen bg-white-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <body transition:animate={fade({ duration: ".5s" })} class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <div class="max-w-2xl mx-auto p-3 sm:p-6">
             <Header 
                 title={frontmatter.title} 
